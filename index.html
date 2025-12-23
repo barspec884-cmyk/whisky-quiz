@@ -6,43 +6,68 @@
     <title>Whisky Quiz - Amber Palette</title>
     <style>
         :root { --primary-color: #D2691E; --bg-color: #1a1a1a; --card-bg: #2d2d2d; --text-color: #f5f5f5; }
-        body { font-family: sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        #quiz-app { width: 90%; max-width: 500px; background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        #quiz-app { width: 90%; max-width: 500px; background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
+        
+        /* タイマーバー */
+        #timer-container { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #444; display: none; }
+        #timer-bar { height: 100%; width: 100%; background: var(--primary-color); transition: linear; }
+
         .level-menu { display: grid; gap: 15px; text-align: center; }
-        .level-btn { background: #3d3d3d; border: 2px solid var(--primary-color); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 1.1em; transition: 0.3s; }
-        .level-btn:hover { background: var(--primary-color); }
+        .level-btn { background: #3d3d3d; border: 2px solid var(--primary-color); color: white; padding: 18px; border-radius: 12px; cursor: pointer; font-size: 1.1em; transition: 0.3s; font-weight: bold; }
+        .level-btn:disabled { border-color: #555; color: #777; cursor: not-allowed; }
+        .level-btn:not(:disabled):hover { background: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
+
         .hidden { display: none; }
-        .progress { color: var(--primary-color); margin-bottom: 10px; font-size: 0.9em; }
-        .question { font-size: 1.2em; font-weight: bold; margin-bottom: 20px; line-height: 1.4; }
-        .options { display: grid; gap: 10px; }
-        .option-btn { background: #3d3d3d; border: 1px solid #555; color: white; padding: 12px; border-radius: 8px; text-align: left; cursor: pointer; width: 100%; font-size: 1em; }
+        .progress { color: var(--primary-color); margin-bottom: 15px; font-size: 0.85em; letter-spacing: 1px; }
+        .question { font-size: 1.25em; font-weight: bold; margin-bottom: 25px; line-height: 1.5; min-height: 80px; }
+        .options { display: grid; gap: 12px; }
+        .option-btn { background: #3d3d3d; border: 1px solid #555; color: white; padding: 15px; border-radius: 10px; text-align: left; cursor: pointer; font-size: 1em; transition: 0.2s; z-index: 10; }
+        .option-btn:not(:disabled):hover { border-color: var(--primary-color); background: #444; }
         .correct { background: #2e7d32 !important; border-color: #4caf50 !important; }
         .wrong { background: #c62828 !important; border-color: #ef5350 !important; }
-        #feedback { margin-top: 20px; padding: 15px; background: #383838; border-left: 5px solid var(--primary-color); display: none; }
-        .next-btn { margin-top: 20px; width: 100%; padding: 15px; background: var(--primary-color); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; display: none; }
+        
+        #feedback { margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--primary-color); border-radius: 4px; display: none; }
+        .next-btn { margin-top: 25px; width: 100%; padding: 18px; background: var(--primary-color); border: none; color: white; border-radius: 12px; cursor: pointer; font-weight: bold; display: none; }
+
+        .result-screen { text-align: center; }
+        .rank-title { font-size: 2em; color: var(--primary-color); margin-bottom: 10px; font-weight: 900; }
+        .praise-msg { font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; background: #383838; padding: 20px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div id="quiz-app">
+    <div id="timer-container"><div id="timer-bar"></div></div>
+
     <div id="level-select" class="level-menu">
-        <h2 style="color:var(--primary-color)">Amber Palette<br>Whisky Quiz</h2>
-        <p>挑戦するレベルを選んでください</p>
-        <button class="level-btn" onclick="startQuiz('初級')">初級</button>
-        <button class="level-btn" onclick="startQuiz('中級')">中級</button>
-        <button class="level-btn" onclick="startQuiz('上級')">上級</button>
-        <button class="level-btn" onclick="startQuiz('カルト級')">カルト級</button>
+        <h1 style="color:var(--primary-color); margin-bottom:5px;">Amber Palette</h1>
+        <h3 style="margin-top:0; opacity:0.7;">Whisky Quiz Master</h3>
+        <p style="font-size:0.9em; margin-bottom:20px;">
+            【制限時間】<br>初級・中級: 15秒 / 上級・カルト: 30秒
+        </p>
+        <button id="btn-初級" class="level-btn" onclick="startQuiz('初級')">初級</button>
+        <button id="btn-中級" class="level-btn" onclick="startQuiz('中級')">中級</button>
+        <button id="btn-上級" class="level-btn" onclick="startQuiz('上級')">上級</button>
+        <button id="btn-カルト級" class="level-btn" onclick="startQuiz('カルト級')">カルト級</button>
     </div>
 
     <div id="quiz-container" class="hidden">
-        <div class="progress">Level: <span id="display-level"></span> | Question <span id="current-idx">1</span></div>
+        <div class="progress"><span id="display-level"></span> ｜ QUESTION <span id="current-num"></span></div>
         <div id="question-text" class="question"></div>
         <div id="options-container" class="options"></div>
         <div id="feedback">
-            <div id="result-text" style="font-weight:bold; margin-bottom:5px;"></div>
-            <div id="rationale-text" style="font-size:0.95em; color: #ccc;"></div>
+            <div id="result-text" style="font-weight:bold; margin-bottom:8px; font-size:1.1em;"></div>
+            <div id="rationale-text" style="font-size:0.9em; color: #ccc; line-height:1.4;"></div>
         </div>
-        <button id="next-btn" class="next-btn" onclick="nextQuestion()">次の問題へ</button>
+        <button id="next-btn" class="next-btn" onclick="handleNext()">次の問題へ進む</button>
+    </div>
+
+    <div id="result-container" class="hidden result-screen">
+        <div id="rank-name" class="rank-title"></div>
+        <div style="font-size: 1.2em; margin-bottom: 20px;">正解率: <span id="final-score"></span></div>
+        <div id="praise-message" class="praise-msg"></div>
+        <p style="font-size:0.85em; color:#888;">挑戦完了。また別のレベルでお会いしましょう。</p>
     </div>
 </div>
 
@@ -51,38 +76,53 @@ let allQuizData = [];
 let filteredQuiz = [];
 let currentIdx = 0;
 let score = 0;
+let timerId = null;
+let startTime = 0;
+let timeLimit = 15; // デフォルト15秒
 
-// JSONを読み込む（fetch）
+const ranks = [
+    { threshold: 100, name: "琥珀の守護神", msg: "完璧です！もはや説明不要。あなたはウイスキーの全てを愛し、知る真のマスターです。" },
+    { threshold: 80, name: "至高の鑑定士", msg: "素晴らしい！並外れた知識量です。バーのカウンターで深く語り合えるレベルです。" },
+    { threshold: 50, name: "熱心な愛好家", msg: "なかなかの腕前ですね。ウイスキーの面白さが分かってきた証拠です。" },
+    { threshold: 0, name: "琥珀色の探求者", msg: "伸び代しかありません！これから一杯のグラスに秘められた物語を紐解いていきましょう。" }
+];
+
 async function loadData() {
     try {
         const response = await fetch('quizData.json');
         allQuizData = await response.json();
-    } catch (e) {
-        console.error("JSONの読み込み失敗:", e);
-        alert("データが見つかりません。サーバー上で実行してください。");
-    }
+        checkCompletedLevels();
+    } catch (e) { console.error(e); }
+}
+
+function checkCompletedLevels() {
+    ['初級', '中級', '上級', 'カルト級'].forEach(lv => {
+        if(localStorage.getItem('quiz_completed_' + lv)) {
+            const btn = document.getElementById('btn-' + lv);
+            if(btn) { btn.disabled = true; btn.innerText = lv + "（挑戦済み）"; }
+        }
+    });
 }
 
 async function startQuiz(lv) {
     if(allQuizData.length === 0) await loadData();
     filteredQuiz = allQuizData.filter(d => d.level === lv);
     
-    if(filteredQuiz.length === 0) {
-        alert("このレベルの問題は準備中です。");
-        return;
-    }
-
+    // レベルに応じて制限時間を設定
+    timeLimit = (lv === '上級' || lv === 'カルト級') ? 30 : 15;
+    
     currentIdx = 0;
     score = 0;
     document.getElementById('display-level').innerText = lv;
     document.getElementById('level-select').classList.add('hidden');
     document.getElementById('quiz-container').classList.remove('hidden');
+    document.getElementById('timer-container').style.display = 'block';
     showQuestion();
 }
 
 function showQuestion() {
     const q = filteredQuiz[currentIdx];
-    document.getElementById('current-idx').innerText = `${currentIdx + 1} / ${filteredQuiz.length}`;
+    document.getElementById('current-num').innerText = `${currentIdx + 1} / ${filteredQuiz.length}`;
     document.getElementById('question-text').innerText = q.q;
     const container = document.getElementById('options-container');
     container.innerHTML = '';
@@ -97,21 +137,53 @@ function showQuestion() {
     
     document.getElementById('feedback').style.display = 'none';
     document.getElementById('next-btn').style.display = 'none';
+    
+    startTimer();
+}
+
+function startTimer() {
+    const bar = document.getElementById('timer-bar');
+    bar.style.transition = 'none';
+    bar.style.width = '100%';
+    
+    // リフローさせてからアニメーション開始
+    void bar.offsetWidth;
+    
+    bar.style.transition = `width ${timeLimit}s linear`;
+    bar.style.width = '0%';
+    
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+        check(-1); // タイムアップ（どの選択肢も選んでいない状態）
+    }, timeLimit * 1000);
 }
 
 function check(idx) {
+    clearTimeout(timerId); // タイマー停止
+    const bar = document.getElementById('timer-bar');
+    const computedWidth = getComputedStyle(bar).width;
+    bar.style.transition = 'none';
+    bar.style.width = computedWidth; // 現在の長さで止める
+
     const q = filteredQuiz[currentIdx];
     const btns = document.getElementsByClassName('option-btn');
     for(let b of btns) b.disabled = true;
 
+    const resTxt = document.getElementById('result-text');
     if(idx === q.c) {
         btns[idx].classList.add('correct');
-        document.getElementById('result-text').innerText = "正解！";
+        resTxt.innerText = "CORRECT";
+        resTxt.style.color = "#4caf50";
         score++;
+    } else if(idx === -1) {
+        resTxt.innerText = "TIME UP";
+        resTxt.style.color = "#ff9800";
+        btns[q.c].classList.add('correct'); // 正解だけ表示
     } else {
         btns[idx].classList.add('wrong');
         btns[q.c].classList.add('correct');
-        document.getElementById('result-text').innerText = "不正解...";
+        resTxt.innerText = "INCORRECT";
+        resTxt.style.color = "#ef5350";
     }
     
     document.getElementById('rationale-text').innerText = q.r;
@@ -119,21 +191,29 @@ function check(idx) {
     document.getElementById('next-btn').style.display = 'block';
 }
 
-function nextQuestion() {
+function handleNext() {
     currentIdx++;
     if(currentIdx < filteredQuiz.length) {
         showQuestion();
     } else {
-        document.getElementById('quiz-container').innerHTML = `
-            <div style="text-align:center">
-                <h2 style="color:var(--primary-color)">Finish!</h2>
-                <p>スコア: ${score} / ${filteredQuiz.length}</p>
-                <button onclick="location.reload()" class="level-btn">メニューに戻る</button>
-            </div>`;
+        showResult();
     }
 }
 
-// 起動時に読み込み開始
+function showResult() {
+    const level = document.getElementById('display-level').innerText;
+    localStorage.setItem('quiz_completed_' + level, 'true');
+    document.getElementById('timer-container').style.display = 'none';
+    document.getElementById('quiz-container').classList.add('hidden');
+    document.getElementById('result-container').classList.remove('hidden');
+    
+    const percent = Math.round((score / filteredQuiz.length) * 100);
+    document.getElementById('final-score').innerText = `${score} / ${filteredQuiz.length} (${percent}%)`;
+    const rank = ranks.find(r => percent >= r.threshold);
+    document.getElementById('rank-name').innerText = rank.name;
+    document.getElementById('praise-message').innerText = rank.msg;
+}
+
 loadData();
 </script>
 </body>
