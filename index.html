@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisky Quiz - Amber Palette</title>
+    <style>
+        :root {
+            --primary-color: #D2691E; /* アンバー色 */
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #f5f5f5;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #quiz-container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .progress {
+            font-size: 0.9em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #3d3d3d;
+            border: 2px solid #4d4d4d;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1em;
+        }
+        .option-btn:active { transform: scale(0.98); }
+        .correct { background: #2e7d32 !important; border-color: #4caf50 !important; }
+        .wrong { background: #c62828 !important; border-color: #ef5350 !important; }
+        
+        #feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            background: #383838;
+            border-left: 5px solid var(--primary-color);
+        }
+        .next-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <div class="progress">Question <span id="current-idx">1</span> / 120</div>
+    <div id="question-text" class="question">読み込み中...</div>
+    <div id="options-container" class="options"></div>
+    <div id="feedback">
+        <div id="result-text" style="font-weight:bold; margin-bottom:5px;"></div>
+        <div id="rationale-text"></div>
+    </div>
+    <button id="next-btn" class="next-btn" onclick="nextQuestion()">次の問題へ</button>
+</div>
+
+<script>
+// クイズデータ（60問分）
+const quizData = [
+    // 1-30問目 (前回の内容を圧縮)
+    {q: "モルトウイスキーの主原料は？", a: ["大麦", "トウモロコシ", "ライ麦", "小麦"], c: 0, r: "大麦麦芽（モルト）のみを使用します。"},
+    {q: "スコッチの最低熟成年数は？", a: ["1年", "3年", "5年", "12年"], c: 1, r: "3年以上、木製樽での熟成が必須です。"},
+    {q: "天使の分け前（エンジェルズ・シェア）とは？", a: ["樽の染み込み", "自然な蒸発", "製造時のロス", "テイスティング分"], c: 1, r: "熟成中に水分やアルコールが蒸発して減る現象です。"},
+    {q: "バーボンの原料トウモロコシ比率は？", a: ["40%以上", "51%以上", "75%以上", "100%"], c: 1, r: "51%以上が法的定義です。"},
+    {q: "スモーキーな香りをつける燃料は？", a: ["木炭", "ピート（泥炭）", "石炭", "天然ガス"], c: 1, r: "ピートを焚いて麦芽を乾燥させます。"},
+    {q: "シングルモルトの「シングル」とは？", a: ["単一の樽", "単一の蒸留所", "単一の原料", "一人用"], c: 1, r: "一つの蒸留所の原酒のみを使っている意味です。"},
+    {q: "ニッカウヰスキーの創業者は？", a: ["鳥井信治郎", "竹鶴政孝", "岩井喜一郎", "肥土伊知郎"], c: 1, r: "日本のウイスキーの父、竹鶴政孝です。"},
+    {q: "アイリッシュ伝統の蒸留回数は？", a: ["1回", "2回", "3回", "5回"], c: 2, r: "3回蒸留で滑らかにするのが伝統的です。"},
+    {q: "シェリー樽の産地は？", a: ["フランス", "ポルトガル", "スペイン", "イタリア"], c: 2, r: "スペインの強化ワイン、シェリーの樽です。"},
+    {q: "ブレンデッドウイスキーの主な構成は？", a: ["モルト+グレーン", "水+酒", "米+麦", "新酒+古酒"], c: 0, r: "モルトとグレーンのブレンドです。"},
+    {q: "テネシーウイスキー独自の濾過法は？", a: ["リンカーンカウンティ法", "メープル濾過", "炭濾過", "氷点濾過"], c: 0, r: "サトウカエデの炭で濾過します。"},
+    {q: "スペイサイドの有名な特徴は？", a: ["潮の香り", "重厚なスモーキーさ", "華やかでフルーティ", "穀物の甘さ"], c: 2, r: "華やかでバランスの良い銘柄が多い地域です。"},
+    {q: "冷却濾過をしていない表記は？", a: ["アンフィルタード", "ノンチルフィルタード", "ピュア", "生"], c: 1, r: "Non-Chill Filteredと表記されます。"},
+    {q: "加水せず樽出しの度数のままは？", a: ["原酒", "カスクストレングス", "ストレート", "フルプルーフ"], c: 1, r: "Cask Strength（樽の強さ）です。"},
+    {q: "カナディアンで特徴的な穀物は？", a: ["ライ麦", "米", "キビ", "大豆"], c: 0, r: "ライ麦由来のスパイシーさが特徴です。"},
+    {q: "ハイボールの由来で有名な説は？", a: ["ゴルフ", "鉄道信号", "気圧", "バーテンダー名"], c: 0, r: "ゴルフの打ち上げボール説が有名です。"},
+    {q: "テイスティングで落ちる液筋は？", a: ["レッグス", "トレース", "フォール", "リング"], c: 0, r: "脚（Legs）や涙と呼ばれます。"},
+    {q: "ミズナラ樽特有の香りは？", a: ["お香・伽羅", "納豆", "潮風", "青リンゴ"], c: 0, r: "日本独特のミズナラは、オリエンタルな香りがします。"},
+    {q: "バーボンの熟成樽の条件は？", a: ["新樽を焦がす", "シェリー樽", "ステンレスタンク", "古樽"], c: 0, r: "新品のオーク樽をチャー（焦がす）して使います。"},
+    {q: "政府公認第1号の蒸留所は？", a: ["マッカラン", "ザ・グレンリベット", "フィディック", "ボウモア"], c: 1, r: "1824年に最初に政府公認を受けました。"},
+    {q: "蒸留に使う銅製の釜は？", a: ["ポットスチル", "ケトル", "バレル", "タンク"], c: 0, r: "単式蒸留器、ポットスチルです。"},
+    {q: "アイラ等で感じる薬品のような香りは？", a: ["メディシナル", "ウッディ", "フローラル", "ナッティ"], c: 0, r: "ピート由来の薬のような香りです。"},
+    {q: "未発芽の大麦を使うアイリッシュの型は？", a: ["シングルポットスチル", "グレーン", "ブレンデッド", "ピュアモルト"], c: 0, r: "未発芽大麦を使う伝統製法です。"},
+    {q: "樽の内側を焼く最大の理由は？", a: ["殺菌", "成分分解と濾過", "度数を上げる", "気密性"], c: 1, r: "甘みを出し、雑味を吸着させます。"},
+    {q: "世界5大ウイスキーでないのは？", a: ["日本", "フランス", "カナダ", "アイルランド"], c: 1, r: "英、愛、米、加、日が5大国です。"},
+    {q: "ストレートに数滴加えて香りを開かせるのは？", a: ["水", "レモン", "塩", "ソーダ"], c: 0, r: "加水によって香りの成分が揮発しやすくなります。"},
+    {q: "スコッチ三大ブレンデッドの一角は？", a: ["バランタイン", "ボウモア", "響", "ジムビーム"], c: 0, r: "ジョニーウォーカー、バランタイン、シーバス等が有名です。"},
+    {q: "「12年」表記の意味は？", a: ["全平均", "最長熟成", "最短熟成", "ちょうど12年"], c: 2, r: "使っている原酒の中で一番若いものが12年です。"},
+    {q: "大麦を麦芽にする工程は？", a: ["マッシング", "モルティング", "発酵", "蒸留"], c: 1, r: "製麦（モルティング）と呼びます。"},
+    {q: "島ものスコッチに多い風味は？", a: ["塩気", "硫黄", "マンゴー", "無味"], c: 0, r: "海沿いで熟成されるため、潮の香りを感じます。"},
+
+    // 31-60問目 (新規追加)
+    {q: "「グレーンウイスキー」の連続式蒸留機を発明した人は？", a: ["アイルズ", "イーニアス・カフェ", "ジョニー・ウォーカー", "アーサー・ベル"], c: 1, r: "カフェスチルの発明により、グレーン生産が飛躍しました。"},
+    {q: "スコッチウイスキーの最大の消費国はどこ？（2023年時点・数量ベース）", a: ["イギリス", "アメリカ", "フランス", "インド"], c: 3, r: "インドは世界最大のウイスキー消費市場の一つです。"},
+    {q: "樽のサイズで「パンチョン」の容量は一般的にどれくらい？", a: ["約200L", "約250L", "約480L", "約700L"], c: 2, r: "大容量の樽で、ゆっくり熟成させるのに適しています。"},
+    {q: "「バレル」の容量は約200Lですが、これはどこの国の標準サイズ？", a: ["スコットランド", "アメリカ", "アイルランド", "日本"], c: 1, r: "ASB（アメリカン・スタンダード・バレル）と呼ばれます。"},
+    {q: "イチローズモルトの蒸留所がある場所は？", a: ["厚岸", "秩父", "安積", "駒ヶ岳"], c: 1, r: "埼玉県秩父市のベンチャーウイスキーです。"},
+    {q: "ウイスキーの熟成中、液体が樽の成分を吸い出すことを何という？", a: ["抽出", "還元", "酸化", "凝集"], c: 0, r: "バニリンやタンニンなどが液体に抽出されます。"},
+    {q: "ブレンデッドウイスキーの生みの親とされる「酒商」文化が栄えた街は？", a: ["ロンドン", "エジンバラ", "ダブリン", "グラスゴー"], c: 1, r: "スコットランドの首都エジンバラでブレンド技術が発達しました。"},
+    {q: "「シングルバレル」や「シングルカスク」とはどういう意味？", a: ["一人の職人が作った", "一つの樽のみから瓶詰め", "一年中販売している", "一種類の麦で作った"], c: 1, r: "他の樽と混ぜず、その樽の個性をそのままボトリングしたものです。"},
+    {q: "アイラモルト「ラフロイグ」の強い個性を表す有名なキャッチコピーは？", a: ["世界で最も美しい", "好きになるか、嫌いになるか", "王家のウイスキー", "海の宝石"], c: 1, r: "Love it or Hate it。強烈なピート香が特徴です。"},
+    {q: "アルコール度数が「50%」の時、アメリカの「プルーフ」表記ではいくつ？", a: ["50プルーフ", "100プルーフ", "150プルーフ", "200プルーフ"], c: 1, r: "USプルーフは度数の2倍の数値になります。"},
+    {q: "「ウイスキー（Whisky/Whiskey）」の語源である「命の水」を意味する言葉は？", a: ["アクアヴィテ", "ウシュク・ベーハー", "オー・ド・ヴィー", "アムリタ"], c: 1, r: "ゲール語のUisge Beathaが訛ってWhiskyになりました。"},
+    {q: "日本で最初にウイスキー蒸留所が建てられた場所は？", a: ["余市", "山崎", "白州", "富士御殿場"], c: 1, r: "1923年、寿屋（現サントリー）が京都の山崎に建設しました。"},
+    {q: "「ボトラーズ（独立瓶詰業者）」とはどんな会社？", a: ["空き瓶を回収する会社", "蒸留所から樽を買い自社で熟成・瓶詰めする会社", "瓶のラベルをデザインする会社", "密造酒を作る会社"], c: 1, r: "ゴードン＆マクファイルなどが有名です。"},
+    {q: "グレーンウイスキーの主な原料（大麦麦芽以外）は何？", a: ["トウモロコシや小麦", "ジャガイモ", "サトウキビ", "ブドウ"], c: 0, r: "トウモロコシ、小麦などの穀類が使われます。"},
+    {q: "「バーボン」という名前の由来になったのは？", a: ["フランスのブルボン王朝", "お酒の神様", "発明した農夫の名前", "地元の川の名前"], c: 0, r: "ケンタッキー州のバーボン郡（フランスへの敬意）に由来します。"},
+    {q: "世界で最も売れているシングルモルトのブランドは？", a: ["マッカラン", "グレンフィディック", "グレンリベット", "ラフロイグ"], c: 1, r: "世界シェアNo.1を長年維持している銘柄です。"},
+    {q: "「スモールバッチ」バーボンの意味は？", a: ["小さな樽で熟成", "少数の樽を選んでブレンド", "一人で作った", "1年未満の熟成"], c: 1, r: "厳選された少数の樽から作られる高品質なラインです。"},
+    {q: "ウイスキーの「色」を整えるために、少量添加が認められているものは？", a: ["醤油", "キャラメル（カラメル）", "黒砂糖", "コーヒー"], c: 1, r: "着色のためのE150a（カラメル）の使用が認められています。"},
+    {q: "ポットスチルの「ラインアーム」が上向きだと、どんな原酒になりやすい？", a: ["軽やかでクリーン", "重厚でパワフル", "甘みが強い", "スモーキー"], c: 0, r: "還流（リフラックス）が促され、軽い成分だけが抽出されます。"},
+    {q: "台湾を代表する世界的に有名なシングルモルトは？", a: ["アムルット", "カバラン（KAVALAN）", "ポール・ジョン", "オマー"], c: 1, r: "亜熱帯気候による高速熟成で知られる台湾の蒸留所です。"},
+    {q: "「マリッジ（結婚）」という言葉がウイスキーで使われる工程は？", a: ["蒸留", "発芽", "後熟（ブレンド後の寝かせ）", "瓶詰め"], c: 2, r: "ブレンドした後の原酒を馴染ませる期間を指します。"},
+    {q: "アイリッシュウイスキーに「e」が入る綴りはどっち？", a: ["Whisky", "Whiskey", "両方間違い", "どちらでも良い"], c: 1, r: "アイルランドとアメリカは一般的に「Whiskey」と綴ります。"},
+    {q: "禁酒法時代のアメリカで、ウイスキーが合法的に売られていた唯一の理由は？", a: ["祭事用", "薬用（処方箋）", "工業用", "輸出用"], c: 1, r: "「薬」として薬局で販売されていました。"},
+    {q: "世界5大ウイスキーの一つ、カナディアンの最大の特徴は？", a: ["世界で最もライトで飲みやすい", "世界で最もピートが強い", "熟成させない", "色が真っ黒"], c: 0, r: "ベースウイスキーを主体とした、非常にスムーズな味わいです。"},
+    {q: "日本独自の「ミズナラ」の木、英語では何と呼ばれる？", a: ["Japanese Cedar", "Japanese Oak", "Amber Tree", "Gold Wood"], c: 1, r: "ジャパニーズ・オーク（Quercus crispula）です。"},
+    {q: "ハイランドパーク蒸留所がある、スコットランド最北の地域は？", a: ["アイラ島", "スカイ島", "オークニー諸島", "キャンベルタウン"], c: 2, r: "北の巨人と呼ばれるハイランドパークの所在地です。"},
+    {q: "「天使の分け前」に対し、樽が吸い込んで消えた分を何と呼ぶ？", a: ["デビルズ・カット（悪魔の取り分）", "ゴースト・ドロップ", "ウッド・ロス", "シェア・ゼロ"], c: 0, r: "ジムビームなどがこの言葉を使った製品を出しています。"},
+    {q: "サントリー「響」のボトルにある「24」のカットの由来は？", a: ["24時間", "24節気", "24人の職人", "24年熟成"], c: 1, r: "日本の四季を刻む24節気を表現したデザインです。"},
+    {q: "「フィニッシュ」という言葉が指す、熟成の最終段階の手法は？", a: ["樽の入れ替え（ウッドフィニッシュ）", "急速冷凍", "激しく振る", "日光浴"], c: 0, r: "別の樽に移し替えて数ヶ月から数年追加熟成させることです。"},
+    {q: "ウイスキーのグラスで、香りをとるのに最適な形は？", a: ["口が広いロックグラス", "チューリップ型", "ジョッキ", "平盃"], c: 1, r: "香りを閉じ込め、鼻に届きやすくする形です。"}
+];
+
+let currentIdx = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quizData[currentIdx];
+    document.getElementById('current-idx').innerText = currentIdx + 1;
+    document.getElementById('question-text').innerText = q.q;
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    q.a.forEach((option, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(i);
+        container.appendChild(btn);
+    });
+    
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+}
+
+function checkAnswer(selectedIdx) {
+    const q = quizData[currentIdx];
+    const buttons = document.getElementsByClassName('option-btn');
+    
+    // 全ボタン無効化
+    for(let btn of buttons) btn.disabled = true;
+    
+    if(selectedIdx === q.c) {
+        buttons[selectedIdx].classList.add('correct');
+        document.getElementById('result-text').innerText = "正解！";
+        score++;
+    } else {
+        buttons[selectedIdx].classList.add('wrong');
+        buttons[q.c].classList.add('correct');
+        document.getElementById('result-text').innerText = "不正解...";
+    }
+    
+    document.getElementById('rationale-text').innerText = q.r;
+    document.getElementById('feedback').style.display = 'block';
+    document.getElementById('next-btn').style.display = 'block';
+}
+
+function nextQuestion() {
+    currentIdx++;
+    if(currentIdx < quizData.length) {
+        loadQuestion();
+    } else {
+        document.getElementById('quiz-container').innerHTML = `
+            <h2>終了！</h2>
+            <p>あなたのスコア: ${score} / ${quizData.length}</p>
+            <button onclick="location.reload()" class="next-btn" style="display:block">もう一度挑戦</button>
+        `;
+    }
+}
+
+// 初回読み込み
+loadQuestion();
+</script>
+
+</body>
+</html>
