@@ -2,37 +2,71 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Whisky Quiz - Amber Palette</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --primary-color: #D2691E; --bg-color: #1a1a1a; --card-bg: #2d2d2d; --text-color: #f5f5f5; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        #quiz-app { width: 90%; max-width: 500px; background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
-        
-        /* タイマーバー */
-        #timer-container { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #444; display: none; }
-        #timer-bar { height: 100%; width: 100%; background: var(--primary-color); transition: linear; }
+        :root { 
+            --primary-color: #d4af37; --amber: #ffbf00; --bg-color: #0d0907; 
+            --card-bg: #1e150f; --text-color: #e0d7c6; --wrong: #c62828; --correct: #2e7d32;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Hiragino Mincho ProN', 'serif'; background: var(--bg-color); 
+            color: var(--text-color); margin: 0; display: flex; justify-content: center; 
+            align-items: flex-start; min-height: 100vh; padding-top: 20px;
+            user-select: none; -webkit-user-select: none;
+        }
+        #quiz-app { 
+            width: 95%; max-width: 500px; background: var(--card-bg); 
+            padding: 25px; border-radius: 8px; border: 1px solid var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; overflow: hidden;
+        }
+        #timer-container { position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: #333; display: none; }
+        #timer-bar { height: 100%; width: 100%; background: var(--amber); transition: linear; }
 
-        .level-menu { display: grid; gap: 15px; text-align: center; }
-        .level-btn { background: #3d3d3d; border: 2px solid var(--primary-color); color: white; padding: 18px; border-radius: 12px; cursor: pointer; font-size: 1.1em; transition: 0.3s; font-weight: bold; }
-        .level-btn:disabled { border-color: #555; color: #777; cursor: not-allowed; }
-        .level-btn:not(:disabled):hover { background: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
+        /* メニュー */
+        .menu-title { color: var(--primary-color); text-align: center; margin-bottom: 25px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .full-width { grid-column: span 2; }
+        .btn-gold { 
+            background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); 
+            padding: 15px 10px; border-radius: 4px; cursor: pointer; font-size: 1rem; transition: 0.2s; font-weight: bold;
+        }
+        .btn-gold:active { background: var(--primary-color); color: var(--bg-color); }
 
+        /* クイズ画面共通 */
         .hidden { display: none; }
-        .progress { color: var(--primary-color); margin-bottom: 15px; font-size: 0.85em; letter-spacing: 1px; }
-        .question { font-size: 1.25em; font-weight: bold; margin-bottom: 25px; line-height: 1.5; min-height: 80px; }
-        .options { display: grid; gap: 12px; }
-        .option-btn { background: #3d3d3d; border: 1px solid #555; color: white; padding: 15px; border-radius: 10px; text-align: left; cursor: pointer; font-size: 1em; transition: 0.2s; z-index: 10; }
-        .option-btn:not(:disabled):hover { border-color: var(--primary-color); background: #444; }
-        .correct { background: #2e7d32 !important; border-color: #4caf50 !important; }
-        .wrong { background: #c62828 !important; border-color: #ef5350 !important; }
-        
-        #feedback { margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--primary-color); border-radius: 4px; display: none; }
-        .next-btn { margin-top: 25px; width: 100%; padding: 18px; background: var(--primary-color); border: none; color: white; border-radius: 12px; cursor: pointer; font-weight: bold; display: none; }
+        .progress { color: var(--primary-color); margin-bottom: 15px; font-size: 0.8rem; border-bottom: 1px solid #444; padding-bottom: 8px; }
+        .question { font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; line-height: 1.5; min-height: 4.5rem; }
 
+        /* 4択UI */
+        .options { display: grid; gap: 10px; }
+        .option-btn { 
+            background: #150f0b; border: 1px solid #444; color: white; padding: 15px; 
+            border-radius: 6px; text-align: left; cursor: pointer; font-size: 0.95rem;
+        }
+        .correct { background: var(--correct) !important; border-color: #4caf50 !important; }
+        .wrong { background: var(--wrong) !important; border-color: #ef5350 !important; }
+
+        /* マッチングUI */
+        .matching-grid { display: flex; gap: 10px; margin-bottom: 15px; }
+        .match-col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .match-card { 
+            background: #150f0b; border: 1px solid #444; padding: 10px; text-align: center; 
+            font-size: 0.8rem; border-radius: 4px; min-height: 60px; display: flex; align-items: center; justify-content: center;
+        }
+        .match-card.active { border-color: var(--amber); color: var(--amber); background: rgba(255,191,0,0.1); }
+        .match-card.matched { opacity: 0.2; pointer-events: none; border-color: var(--correct); }
+
+        /* フィードバック */
+        #feedback { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.4); border-left: 4px solid var(--primary-color); display: none; font-size: 0.85rem; }
+        .next-btn { margin-top: 20px; width: 100%; padding: 15px; background: var(--primary-color); color: var(--bg-color); border: none; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        /* 結果画面 */
         .result-screen { text-align: center; }
-        .rank-title { font-size: 2em; color: var(--primary-color); margin-bottom: 10px; font-weight: 900; }
-        .praise-msg { font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; background: #383838; padding: 20px; border-radius: 10px; }
+        .score-circle { font-size: 2.5rem; color: var(--amber); margin: 15px 0; font-weight: bold; }
+        .insight-box { background: #150f0b; padding: 15px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: left; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -40,181 +74,297 @@
 <div id="quiz-app">
     <div id="timer-container"><div id="timer-bar"></div></div>
 
-    <div id="level-select" class="level-menu">
-        <h1 style="color:var(--primary-color); margin-bottom:5px;">Amber Palette</h1>
-        <h3 style="margin-top:0; opacity:0.7;">Whisky Quiz Master</h3>
-        <p style="font-size:0.9em; margin-bottom:20px;">
-            【制限時間】<br>初級・中級: 15秒 / 上級・カルト: 30秒
-        </p>
-        <button id="btn-初級" class="level-btn" onclick="startQuiz('初級')">初級</button>
-        <button id="btn-中級" class="level-btn" onclick="startQuiz('中級')">中級</button>
-        <button id="btn-上級" class="level-btn" onclick="startQuiz('上級')">上級</button>
-        <button id="btn-カルト級" class="level-btn" onclick="startQuiz('カルト級')">カルト級</button>
-    </div>
-
-    <div id="quiz-container" class="hidden">
-        <div class="progress"><span id="display-level"></span> ｜ QUESTION <span id="current-num"></span></div>
-        <div id="question-text" class="question"></div>
-        <div id="options-container" class="options"></div>
-        <div id="feedback">
-            <div id="result-text" style="font-weight:bold; margin-bottom:8px; font-size:1.1em;"></div>
-            <div id="rationale-text" style="font-size:0.9em; color: #ccc; line-height:1.4;"></div>
+    <div id="menu-screen">
+        <div class="menu-title">
+            <h1 style="font-size: 1.5rem; letter-spacing: 2px;">AMBER PALETTE</h1>
+            <p style="opacity: 0.6; font-size: 0.8rem;">Whisky Knowledge Certification</p>
         </div>
-        <button id="next-btn" class="next-btn" onclick="handleNext()">次の問題へ進む</button>
+        <div class="menu-grid">
+            <button class="btn-gold full-width" onclick="startCourse('100pt')">【最終試験】100点満点テスト</button>
+            <button class="btn-gold" onclick="startCourse('初級')">初級 (1pt)</button>
+            <button class="btn-gold" onclick="startCourse('中級')">中級 (2pt)</button>
+            <button class="btn-gold" onclick="startCourse('上級')">上級 (3pt)</button>
+            <button class="btn-gold" onclick="startCourse('カルト級')">カルト級 (5pt)</button>
+            <button class="btn-gold full-width" onclick="startCourse('組み合わせ')">組み合わせパズル (5pt)</button>
+        </div>
     </div>
 
-    <div id="result-container" class="hidden result-screen">
-        <div id="rank-name" class="rank-title"></div>
-        <div style="font-size: 1.2em; margin-bottom: 20px;">正解率: <span id="final-score"></span></div>
-        <div id="praise-message" class="praise-msg"></div>
-        <p style="font-size:0.85em; color:#888;">挑戦完了。また別のレベルでお会いしましょう。</p>
+    <div id="quiz-screen" class="hidden">
+        <div class="progress">
+            <span id="level-label"></span> ｜ <span id="current-pos"></span> ｜ <span id="current-pts"></span> pts
+        </div>
+        <div id="q-text" class="question"></div>
+        <div id="options-ui" class="options"></div>
+        <div id="matching-ui" class="hidden">
+            <div class="matching-grid">
+                <div id="left-col" class="match-col"></div>
+                <div id="right-col" class="match-col"></div>
+            </div>
+        </div>
+        <div id="feedback">
+            <div id="res-label" style="font-weight:bold; margin-bottom:5px;"></div>
+            <div id="learning-text"></div>
+        </div>
+        <button id="next-btn" class="next-btn" onclick="handleNext()">NEXT STEP</button>
+    </div>
+
+    <div id="result-screen" class="hidden result-screen">
+        <div id="rank-name" style="color: var(--primary-color); font-weight: bold; font-size: 1.4rem;"></div>
+        <div id="total-score" class="score-circle"></div>
+        <div id="praise-msg" class="insight-box"></div>
+        <button class="btn-gold full-width" onclick="goHome()">カウンター（ホーム）へ戻る</button>
     </div>
 </div>
 
 <script>
-let allQuizData = [];
-let filteredQuiz = [];
+// 基本変数の管理
+let allData = [];
+let playList = [];
 let currentIdx = 0;
-let score = 0;
+let totalPoints = 0;
+let maxPointsPossible = 0;
 let timerId = null;
-let startTime = 0;
-let timeLimit = 15; // デフォルト15秒
+let countdownAudioId = null;
 
-const ranks = [
-    { threshold: 100, name: "琥珀の守護神", msg: "完璧です！もはや説明不要。あなたはウイスキーの全てを愛し、知る真のマスターです。" },
-    { threshold: 80, name: "至高の鑑定士", msg: "素晴らしい！並外れた知識量です。バーのカウンターで深く語り合えるレベルです。" },
-    { threshold: 50, name: "熱心な愛好家", msg: "なかなかの腕前ですね。ウイスキーの面白さが分かってきた証拠です。" },
-    { threshold: 0, name: "琥珀色の探求者", msg: "伸び代しかありません！これから一杯のグラスに秘められた物語を紐解いていきましょう。" }
-];
+const timeLimit = 30; // 制限時間30秒
+const pointMap = { "初級": 1, "中級": 2, "上級": 3, "カルト級": 5, "組み合わせ": 5 };
 
-async function loadData() {
+// 音源設定
+const sounds = {
+    correct: new Audio('sounds/correct.mp3'),
+    incorrect: new Audio('sounds/incorrect.mp3'),
+    countdown: new Audio('sounds/countdown.mp3'),
+    cheers: new Audio('sounds/cheers.mp3')
+};
+
+// データの読み込み
+async function init() {
     try {
-        const response = await fetch('quizData.json');
-        allQuizData = await response.json();
-        checkCompletedLevels();
-    } catch (e) { console.error(e); }
+        const res = await fetch('quizData.json');
+        if (!res.ok) throw new Error("File not found");
+        allData = await res.json();
+        console.log("Data loaded successfully:", allData.length, "questions");
+    } catch (e) { 
+        console.error("Data load error", e);
+        alert("データの読み込みに失敗しました。ファイル名を確認してください。");
+    }
 }
 
-function checkCompletedLevels() {
-    ['初級', '中級', '上級', 'カルト級'].forEach(lv => {
-        if(localStorage.getItem('quiz_completed_' + lv)) {
-            const btn = document.getElementById('btn-' + lv);
-            if(btn) { btn.disabled = true; btn.innerText = lv + "（挑戦済み）"; }
-        }
-    });
+function playSnd(key) {
+    if (sounds[key]) {
+        sounds[key].currentTime = 0;
+        sounds[key].play().catch(() => {});
+    }
 }
 
-async function startQuiz(lv) {
-    if(allQuizData.length === 0) await loadData();
-    filteredQuiz = allQuizData.filter(d => d.level === lv);
-    
-    // レベルに応じて制限時間を設定
-    timeLimit = (lv === '上級' || lv === 'カルト級') ? 30 : 15;
-    
-    currentIdx = 0;
-    score = 0;
-    document.getElementById('display-level').innerText = lv;
-    document.getElementById('level-select').classList.add('hidden');
-    document.getElementById('quiz-container').classList.remove('hidden');
+function stopAllSounds() {
+    Object.values(sounds).forEach(s => { s.pause(); s.currentTime = 0; });
+}
+
+// コース開始
+function startCourse(type) {
+    if (allData.length === 0) {
+        alert("データがまだ読み込まれていません。");
+        return;
+    }
+    playSnd('correct'); sounds.correct.pause(); // 再生制限解除
+
+    if (type === '100pt') {
+        playList = [
+            ...shuffle(allData.filter(d => d.level === '初級')).slice(0, 10),
+            ...shuffle(allData.filter(d => d.level === '中級')).slice(0, 10),
+            ...shuffle(allData.filter(d => d.level === '上級')).slice(0, 10),
+            ...shuffle(allData.filter(d => d.level === 'カルト級')).slice(0, 4),
+            ...shuffle(allData.filter(d => d.level === '組み合わせ')).slice(0, 4)
+        ];
+    } else {
+        playList = shuffle(allData.filter(d => d.level === type));
+    }
+
+    if (playList.length === 0) {
+        alert(type + " のデータが見つかりません。");
+        return;
+    }
+
+    currentIdx = 0; totalPoints = 0;
+    maxPointsPossible = playList.reduce((sum, q) => sum + pointMap[q.level], 0);
+    document.getElementById('menu-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
     document.getElementById('timer-container').style.display = 'block';
     showQuestion();
 }
 
 function showQuestion() {
-    const q = filteredQuiz[currentIdx];
-    document.getElementById('current-num').innerText = `${currentIdx + 1} / ${filteredQuiz.length}`;
-    document.getElementById('question-text').innerText = q.q;
-    const container = document.getElementById('options-container');
+    stopAllSounds();
+    const q = playList[currentIdx];
+    document.getElementById('level-label').innerText = q.level;
+    document.getElementById('current-pos').innerText = `Q ${currentIdx + 1} / ${playList.length}`;
+    document.getElementById('current-pts').innerText = pointMap[q.level];
+    document.getElementById('q-text').innerText = q.q;
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    if (q.type === 'matching') setupMatchingUI(q);
+    else setupStandardUI(q);
+
+    resetTimer();
+}
+
+function resetTimer() {
+    const bar = document.getElementById('timer-bar');
+    bar.style.transition = 'none';
+    bar.style.width = '100%';
+    setTimeout(() => {
+        bar.style.transition = `width ${timeLimit}s linear`;
+        bar.style.width = '0%';
+    }, 10);
+
+    clearTimeout(timerId);
+    clearTimeout(countdownAudioId);
+
+    countdownAudioId = setTimeout(() => playSnd('countdown'), (timeLimit - 10) * 1000);
+    timerId = setTimeout(() => checkStandard(-1), timeLimit * 1000);
+}
+
+function checkStandard(idx) {
+    clearTimeout(timerId);
+    clearTimeout(countdownAudioId);
+    stopAllSounds();
+
+    const q = playList[currentIdx];
+    const btns = document.getElementsByClassName('option-btn');
+    for(let b of btns) b.disabled = true;
+
+    const isCorrect = (idx === q.c);
+    if (isCorrect) {
+        if (idx !== -1) { btns[idx].classList.add('correct'); totalPoints += pointMap[q.level]; playSnd('correct'); }
+    } else {
+        if (idx !== -1) btns[idx].classList.add('wrong');
+        if (q.c !== undefined && btns[q.c]) btns[q.c].classList.add('correct');
+        playSnd('incorrect');
+    }
+    showFeedback(isCorrect && idx !== -1);
+}
+
+function setupStandardUI(q) {
+    document.getElementById('options-ui').classList.remove('hidden');
+    document.getElementById('matching-ui').classList.add('hidden');
+    const container = document.getElementById('options-ui');
     container.innerHTML = '';
-    
     q.a.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerText = opt;
-        btn.onclick = () => check(i);
+        btn.onclick = () => checkStandard(i);
         container.appendChild(btn);
     });
-    
-    document.getElementById('feedback').style.display = 'none';
-    document.getElementById('next-btn').style.display = 'none';
-    
-    startTimer();
 }
 
-function startTimer() {
-    const bar = document.getElementById('timer-bar');
-    bar.style.transition = 'none';
-    bar.style.width = '100%';
-    
-    // リフローさせてからアニメーション開始
-    void bar.offsetWidth;
-    
-    bar.style.transition = `width ${timeLimit}s linear`;
-    bar.style.width = '0%';
-    
-    clearTimeout(timerId);
-    timerId = setTimeout(() => {
-        check(-1); // タイムアップ（どの選択肢も選んでいない状態）
-    }, timeLimit * 1000);
-}
+function setupMatchingUI(q) {
+    document.getElementById('options-ui').classList.add('hidden');
+    document.getElementById('matching-ui').classList.remove('hidden');
+    const lCol = document.getElementById('left-col');
+    const rCol = document.getElementById('right-col');
+    lCol.innerHTML = ''; rCol.innerHTML = '';
+    let sL = null; let sR = null; let matches = 0;
 
-function check(idx) {
-    clearTimeout(timerId); // タイマー停止
-    const bar = document.getElementById('timer-bar');
-    const computedWidth = getComputedStyle(bar).width;
-    bar.style.transition = 'none';
-    bar.style.width = computedWidth; // 現在の長さで止める
+    const shuffledPairs = shuffle([...q.pairs]);
+    q.pairs.forEach(p => {
+        const card = document.createElement('div'); card.className = 'match-card'; card.innerText = p.left;
+        card.onclick = () => {
+            document.querySelectorAll('#left-col .match-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active'); sL = { el: card, id: p.id };
+            if (sL && sR) checkMatch();
+        };
+        lCol.appendChild(card);
+    });
+    shuffledPairs.forEach(p => {
+        const card = document.createElement('div'); card.className = 'match-card'; card.innerText = p.right;
+        card.onclick = () => {
+            document.querySelectorAll('#right-col .match-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active'); sR = { el: card, id: p.id };
+            if (sL && sR) checkMatch();
+        };
+        rCol.appendChild(card);
+    });
 
-    const q = filteredQuiz[currentIdx];
-    const btns = document.getElementsByClassName('option-btn');
-    for(let b of btns) b.disabled = true;
-
-    const resTxt = document.getElementById('result-text');
-    if(idx === q.c) {
-        btns[idx].classList.add('correct');
-        resTxt.innerText = "CORRECT";
-        resTxt.style.color = "#4caf50";
-        score++;
-    } else if(idx === -1) {
-        resTxt.innerText = "TIME UP";
-        resTxt.style.color = "#ff9800";
-        btns[q.c].classList.add('correct'); // 正解だけ表示
-    } else {
-        btns[idx].classList.add('wrong');
-        btns[q.c].classList.add('correct');
-        resTxt.innerText = "INCORRECT";
-        resTxt.style.color = "#ef5350";
+    function checkMatch() {
+        if (sL.id === sR.id) {
+            sL.el.classList.add('matched'); sR.el.classList.add('matched');
+            playSnd('correct'); matches++;
+            if (matches === q.pairs.length) { 
+                clearTimeout(timerId); clearTimeout(countdownAudioId); stopAllSounds();
+                totalPoints += pointMap[q.level]; showFeedback(true); 
+            }
+        } else { playSnd('incorrect'); }
+        sL = null; sR = null;
+        setTimeout(() => document.querySelectorAll('.match-card').forEach(c => c.classList.remove('active')), 300);
     }
-    
-    document.getElementById('rationale-text').innerText = q.r;
+}
+
+function showFeedback(isCorrect) {
+    const q = playList[currentIdx];
+    const res = document.getElementById('res-label');
+    res.innerText = isCorrect ? "【 正解 】" : "【 不正解 / Time Up 】";
+    res.style.color = isCorrect ? "var(--correct)" : "var(--wrong)";
+    // データ項目 r または learning に対応
+    document.getElementById('learning-text').innerText = q.r || q.learning || "解説なし";
     document.getElementById('feedback').style.display = 'block';
     document.getElementById('next-btn').style.display = 'block';
 }
 
 function handleNext() {
     currentIdx++;
-    if(currentIdx < filteredQuiz.length) {
-        showQuestion();
-    } else {
-        showResult();
-    }
+    if (currentIdx < playList.length) showQuestion();
+    else showResult();
 }
 
 function showResult() {
-    const level = document.getElementById('display-level').innerText;
-    localStorage.setItem('quiz_completed_' + level, 'true');
+    stopAllSounds();
+    document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('timer-container').style.display = 'none';
-    document.getElementById('quiz-container').classList.add('hidden');
-    document.getElementById('result-container').classList.remove('hidden');
-    
-    const percent = Math.round((score / filteredQuiz.length) * 100);
-    document.getElementById('final-score').innerText = `${score} / ${filteredQuiz.length} (${percent}%)`;
-    const rank = ranks.find(r => percent >= r.threshold);
-    document.getElementById('rank-name').innerText = rank.name;
-    document.getElementById('praise-message').innerText = rank.msg;
+    document.getElementById('result-screen').classList.remove('hidden');
+
+    document.getElementById('total-score').innerText = `${totalPoints} / ${maxPointsPossible}`;
+    const ratio = totalPoints / maxPointsPossible;
+
+    let rank = "琥珀の探求者";
+    let msg = "さらなる深淵へ。またの挑戦をお待ちしております。";
+
+    if (ratio >= 1) {
+        rank = "琥珀の守護神";
+        msg = "完璧です！Bar SPECが認める真のウイスキーマスター。今夜の最高の一杯を捧げます。";
+        playSnd('cheers');
+        fireConfetti(true);
+    } else if (ratio >= 0.8) {
+        rank = "至高の鑑定士";
+        msg = "素晴らしい！あなたはBar SPECの誇りです。その知識、まさに本物。";
+        playSnd('cheers');
+        fireConfetti(false);
+    }
+
+    document.getElementById('rank-name').innerText = rank;
+    document.getElementById('praise-msg').innerText = msg;
 }
 
-loadData();
+function fireConfetti(isGrand) {
+    if (isGrand) {
+        var end = Date.now() + (3 * 1000);
+        var colors = ['#d4af37', '#ffbf00', '#ffffff'];
+        (function frame() {
+            confetti({particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: colors});
+            confetti({particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors});
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+    } else {
+        confetti({particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffbf00']});
+    }
+}
+
+function goHome() { location.reload(); }
+function shuffle(a) { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+init();
 </script>
 </body>
 </html>
