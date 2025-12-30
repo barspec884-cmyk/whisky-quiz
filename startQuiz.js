@@ -15,7 +15,10 @@ const sounds = {
     // 新しい問題が出たとき
     question: new Audio("sounds/question.mp3")
 };
+sounds.countdown.loop = true;
 
+sounds.question.volume  = 1.0;
+sounds.countdown.volume = 0.5;
 // thinkingtime はループ再生
 sounds.countdown.loop = true;
 
