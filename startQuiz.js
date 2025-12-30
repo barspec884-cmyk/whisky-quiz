@@ -5,8 +5,10 @@ const sounds = {
     incorrect: new Audio("sounds/incorrect.mp3"),
     cheers: new Audio("sounds/cheers.mp3"),
     countdown: new Audio("sounds/thinkingtime.mp3"),
-    timeup: new Audio("sounds/sinkingtime.mp3")
+    timeup: new Audio("sounds/sinkingtime.mp3"),
+    question: new Audio("sounds/question.mp3") // ★追加
 };
+
 
 function playSound(name) {
     if (!sounds[name]) return;
@@ -70,7 +72,12 @@ function startQuiz(lv) {
 
 // --- 以下、クイズ進行の基本ロジック ---
 function showQuestion() {
-    // ★ thinkingtime（countdown）を必ずリセット
+
+    // ★ 新しい問題になったら鳴らす
+    sounds.question.currentTime = 0;
+    sounds.question.play().catch(() => {});
+
+    // thinkingtime は一旦リセット
     sounds.countdown.pause();
     sounds.countdown.currentTime = 0;
 
