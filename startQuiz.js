@@ -1,3 +1,4 @@
+
 // --- 音声設定（soundsフォルダの中を参照するように修正） ---
 const sounds = {
     correct: new Audio("sounds/correct.mp3"),
@@ -43,23 +44,27 @@ async function loadData() {
 }
 // ★ ランダム & 10問制限を実装した関数
 function startQuiz(lv) {
+    const QUESTION_LIMIT = 10;
+
+    // レベルで問題を抽出
     let allQuestions = allQuizData.filter(d => d.level === lv);
-    
+
     // ランダムに並び替え
     allQuestions.sort(() => Math.random() - 0.5);
-    
-    // 最初の10問だけを取り出す
-    const QUESTION_LIMIT = 10;
+
+    // 10問だけ使う
     filteredQuiz = allQuestions.slice(0, QUESTION_LIMIT);
 
-    currentIdx = 0; score = 0;
+    currentIdx = 0;
+    score = 0;
     timeLimit = (lv === '上級' || lv === 'カルト級') ? 30 : 15;
-    
+
     document.getElementById('display-level').innerText = lv;
     document.getElementById('level-select').classList.add('hidden');
     document.getElementById('quiz-container').classList.remove('hidden');
-    document.getElementById('timer-container').style.display = (lv === '組み合わせ') ? 'none' : 'block';
-    
+    document.getElementById('timer-container').style.display =
+        (lv === '組み合わせ') ? 'none' : 'block';
+
     showQuestion();
 }
 
