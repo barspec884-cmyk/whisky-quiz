@@ -70,10 +70,12 @@ function startQuiz(lv) {
 
 // --- 以下、クイズ進行の基本ロジック ---
 function showQuestion() {
-    const q = filteredQuiz[currentIdx];
+    // ★ thinkingtime（countdown）を必ずリセット
     sounds.countdown.pause();
     sounds.countdown.currentTime = 0;
-	  const q = filteredQuiz[currentIdx];
+
+    const q = filteredQuiz[currentIdx];
+
     document.getElementById('current-num').innerText = `${currentIdx + 1} / ${filteredQuiz.length}`;
     document.getElementById('question-text').innerText = q.q;
     const container = document.getElementById('options-container');
