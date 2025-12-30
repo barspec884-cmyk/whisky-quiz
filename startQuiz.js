@@ -18,7 +18,7 @@ const sounds = {
 sounds.countdown.loop = true;
 
 sounds.question.volume  = 1.0;
-sounds.countdown.volume = 0.5;
+sounds.countdown.volume = 0.1;
 // thinkingtime はループ再生
 sounds.countdown.loop = true;
 
