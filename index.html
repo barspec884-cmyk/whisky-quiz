@@ -33,6 +33,14 @@ body{
 }
 .hidden{display:none;}
 
+/* 演出用の揺れアニメーション */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+.shake { animation: shake 0.3s ease-in-out; }
+
 .level-menu{display:grid;gap:15px;text-align:center;}
 .level-btn{
   background:#3d3d3d;
@@ -43,6 +51,7 @@ body{
   cursor:pointer;
   font-size:1.1em;
   font-weight:bold;
+  transition: 0.2s;
 }
 .level-btn:hover{background:var(--primary-color);}
 
@@ -69,7 +78,12 @@ body{
   padding:15px;
   border-radius:10px;
   cursor:pointer;
+  transition: 0.2s;
 }
+
+/* 正解・不正解時の色 */
+.option-btn.correct { background-color: #4caf50 !important; border-color: #4caf50; }
+.option-btn.wrong { background-color: #ef5350 !important; border-color: #ef5350; }
 
 #feedback{
   margin-top:25px;
@@ -111,13 +125,30 @@ body{
   background:transparent;
   border:1px solid #888;
   color:#aaa;
-  padding:12px 20px;
+  padding:10px 18px;
   border-radius:8px;
   cursor:pointer;
+  font-size: 0.9em;
+  transition: 0.2s;
 }
 .home-btn:hover{
   color:white;
   border-color:white;
+}
+
+/* タイマーのデザイン */
+#timer-container {
+  width: 100%;
+  height: 6px;
+  background: #333;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+#timer-bar {
+  width: 100%;
+  height: 100%;
+  background: var(--primary-color);
 }
 </style>
 </head>
@@ -126,7 +157,6 @@ body{
 
 <div id="quiz-app">
 
-  <!-- レベル選択 -->
   <div id="level-select" class="level-menu">
     <h1 style="color:var(--primary-color);margin-bottom:5px;">Amber Palette</h1>
     <h3 style="margin-top:0;opacity:.7;">Whisky Quiz Master</h3>
@@ -135,16 +165,22 @@ body{
     <button class="level-btn" onclick="startQuiz('上級')">上級</button>
     <button class="level-btn" onclick="startQuiz('カルト級')">カルト級</button>
     <button class="level-btn" onclick="startQuiz('組み合わせ')">組み合わせ</button>
+
+    <div style="margin-top: 20px;">
+      <a href="https://amber-palette-hub.vercel.app/" class="home-btn" style="text-decoration:none; display:inline-block;">
+         ← Amber Palette HUB へ戻る
+      </a>
+    </div>
   </div>
 
-  <!-- クイズ画面 -->
   <div id="quiz-container" class="hidden">
-<a href="https://amber-palette-hub.vercel.app/"
-   class="home-btn"
-   style="display:inline-block;margin-bottom:15px;text-decoration:none;">
-   ← Amber Palette HUB へ戻る
-</a>
+    <div style="margin-bottom:15px;">
+      <button class="home-btn" onclick="confirmHome()">✕ クイズを中断</button>
+    </div>
 
+    <div id="timer-container">
+      <div id="timer-bar"></div>
+    </div>
 
     <div class="progress">
       <span id="display-level"></span> ｜ QUESTION <span id="current-num"></span>
@@ -161,14 +197,13 @@ body{
     <button id="next-btn" class="next-btn" onclick="handleNext()">次の問題へ進む</button>
   </div>
 
-  <!-- 結果画面 -->
   <div id="result-container" class="hidden result-screen">
     <div id="rank-name" class="rank-title"></div>
     <div style="font-size:1.2em;margin-bottom:20px;">
       正解数: <span id="final-score"></span>
     </div>
     <div id="praise-message" class="praise-msg"></div>
-    <button class="home-btn" onclick="goHome()">ホームへ戻る</button>
+    <button class="home-btn" onclick="goHome()">レベル選択へ戻る</button>
   </div>
 
 </div>
@@ -177,21 +212,32 @@ body{
 <script src="startQuiz.js"></script>
 
 <script>
+/**
+ * クイズ中断の確認ダイアログ
+ */
+function confirmHome(){
+  if(confirm("クイズを中断してレベル選択に戻りますか？")){
+    goHome(); 
+  }
+}
+
+/**
+ * クイズの状態をリセットしてホーム（レベル選択）へ戻る
+ */
 function goHome(){
+  // startQuiz.js 側で thinkingtime が動いている可能性があるため停止
+  if (typeof stopThinkingTime === "function") stopThinkingTime();
+  if (typeof timerId !== "undefined") clearTimeout(timerId);
+
+  // 画面の切り替え
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("result-container").classList.add("hidden");
   document.getElementById("level-select").classList.remove("hidden");
 
-  // 状態初期化（安全）
+  // フィードバック等の状態初期化
   document.getElementById("feedback").style.display="none";
   document.getElementById("next-btn").style.display="none";
   document.getElementById("options-container").innerHTML="";
-}
-
-function confirmHome(){
-  if(confirm("クイズを中断してホームへ戻りますか？")){
-    goHome();
-  }
 }
 </script>
 
