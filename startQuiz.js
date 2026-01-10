@@ -1,16 +1,48 @@
-// ===============================
-// 1. 音声の設定
-// ===============================
-const sounds = {
-    correct: new Audio("sounds/correct.mp3"),
-    incorrect: new Audio("sounds/incorrect.mp3"),
-    cheers: new Audio("sounds/cheers.mp3"),
-    countdown: new Audio("sounds/thinkingtime.mp3"), // 考えている間のBGM
-    timeup: new Audio("sounds/sinkingtime.mp3"),
-    question: new Audio("sounds/question.mp3"),
-    // ★レース開始音（ファイル名は短く race-start-beeps.mp3 に変更を推奨）
-    raceStart: new Audio("sounds/race-start-beeps.mp3") 
-};
+async function startQuiz(lv) {
+    if (allQuizData.length === 0) return;
+
+    // 画面切り替え
+    document.getElementById("level-select").classList.add("hidden");
+    const overlay = document.getElementById("countdown-overlay");
+    const numDisplay = document.getElementById("countdown-num");
+    const labelDisplay = document.getElementById("countdown-label");
+    overlay.classList.remove("hidden");
+
+    // データの準備
+    let allQuestions = allQuizData.filter(d => d.level === lv);
+    allQuestions.sort(() => Math.random() - 0.5);
+    filteredQuiz = allQuestions.slice(0, 10);
+    currentIdx = 0; score = 0;
+    document.getElementById("display-level").innerText = lv;
+
+    // 音の再生（エラーが起きても無視して進む設定）
+    try {
+        if (sounds.raceStart) {
+            sounds.raceStart.currentTime = 0;
+            sounds.raceStart.play().catch(e => console.log("Audio play blocked"));
+        }
+    } catch (e) { console.log("Sound Error, but continuing..."); }
+
+    const counts = ["3", "2", "1", "GO!"];
+    for (let i = 0; i < counts.length; i++) {
+        numDisplay.innerText = counts[i];
+        labelDisplay.innerText = (i === 3) ? "START!" : "READY...";
+
+        if (i === 3) overlay.classList.add("flash-white");
+
+        numDisplay.classList.remove("pop-num");
+        void numDisplay.offsetWidth; 
+        numDisplay.classList.add("pop-num");
+
+        // 1秒待機（ここが実行されれば 3, 2, 1 と動きます）
+        await new Promise(r => setTimeout(r, 1000));
+    }
+
+    overlay.classList.remove("flash-white");
+    overlay.classList.add("hidden");
+    document.getElementById("quiz-container").classList.remove("hidden");
+    showQuestion();
+}
 sounds.countdown.loop = true;
 
 // ===============================
@@ -26,12 +58,12 @@ const ranks = [
     { threshold: 0,  name: "琥珀色の探求者", msg: "これから学びましょう！" }
 ];
 
-// データの読み込み
 async function loadData() {
     try {
         const response = await fetch("quizData_full.json");
         allQuizData = await response.json();
-    } catch (e) { console.error("データ読み込みエラー:", e); }
+        console.log("Data Loaded");
+    } catch (e) { console.error("Load Error", e); }
 }
 
 function playSound(name) { 
@@ -44,19 +76,19 @@ function playSound(name) {
 function stopThinkingTime() { sounds.countdown.pause(); sounds.countdown.currentTime = 0; }
 
 // ===============================
-// 3. クイズ開始（モーグル式演出）
+// 3. クイズ開始（3-2-1 カウントダウン）
 // ===============================
 async function startQuiz(lv) {
     if (allQuizData.length === 0) return;
 
-    // 画面の切り替え
+    // 画面切り替え
     document.getElementById("level-select").classList.add("hidden");
     const overlay = document.getElementById("countdown-overlay");
     const numDisplay = document.getElementById("countdown-num");
     const labelDisplay = document.getElementById("countdown-label");
     overlay.classList.remove("hidden");
 
-    // クイズデータの準備
+    // データの準備
     let allQuestions = allQuizData.filter(d => d.level === lv);
     allQuestions.sort(() => Math.random() - 0.5);
     filteredQuiz = allQuestions.slice(0, 10);
@@ -67,19 +99,19 @@ async function startQuiz(lv) {
     // 音の再生（ピッ、ピッ、ピッ、ピー！）
     playSound("raceStart");
 
-    // カウントダウン表示同期
     const counts = ["3", "2", "1", "GO!"];
     for (let i = 0; i < counts.length; i++) {
         numDisplay.innerText = counts[i];
         labelDisplay.innerText = (i === 3) ? "START!" : "READY...";
 
-        if (i === 3) overlay.classList.add("flash-white"); // GO!でフラッシュ
+        // GO!でフラッシュ演出
+        if (i === 3) overlay.classList.add("flash-white");
 
         numDisplay.classList.remove("pop-num");
-        void numDisplay.offsetWidth; // アニメーションリセット
+        void numDisplay.offsetWidth; 
         numDisplay.classList.add("pop-num");
 
-        await new Promise(r => setTimeout(r, 1000)); // 1秒間隔
+        await new Promise(r => setTimeout(r, 1000));
     }
 
     // クイズ本編へ
@@ -91,16 +123,14 @@ async function startQuiz(lv) {
 }
 
 // ===============================
-// 4. 問題表示・判定ロジック
+// 4. クイズ本編のロジック
 // ===============================
 function showQuestion() {
     playSound("question");
     stopThinkingTime();
-
     const q = filteredQuiz[currentIdx];
     document.getElementById("current-num").innerText = `${currentIdx + 1} / ${filteredQuiz.length}`;
     document.getElementById("question-text").innerText = q.q;
-
     const container = document.getElementById("options-container");
     container.innerHTML = "";
     document.getElementById("feedback").style.display = "none";
@@ -126,9 +156,7 @@ function renderMatching(q, container) {
     grid.className = "matching-grid";
     const leftCol = document.createElement("div"); leftCol.className = "matching-column";
     const rightCol = document.createElement("div"); rightCol.className = "matching-column";
-
     const shuffledRight = [...q.pairs].sort(() => Math.random() - 0.5);
-
     q.pairs.forEach(p => {
         const b = document.createElement("button"); b.className = "match-btn"; b.innerText = p.left;
         b.onclick = () => {
@@ -138,7 +166,6 @@ function renderMatching(q, container) {
         };
         leftCol.appendChild(b);
     });
-
     shuffledRight.forEach(p => {
         const b = document.createElement("button"); b.className = "match-btn"; b.innerText = p.right;
         b.onclick = () => {
@@ -172,7 +199,6 @@ function check(idx) {
     const q = filteredQuiz[currentIdx];
     const btns = document.getElementsByClassName("option-btn");
     for (let b of btns) b.disabled = true;
-
     if (idx === q.c) {
         if (btns[idx]) btns[idx].classList.add("correct");
         playSound("correct"); showFeedback(true, q.r, "CORRECT"); score++;
