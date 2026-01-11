@@ -2,10 +2,10 @@
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
 const sounds = {
-  countdown: new Audio("sounds/race-start-beeps.mp3"),
+  correct: new Audio("sounds/correct.mp3"),
   incorrect: new Audio("sounds/incorrect.mp3"),
   cheers: new Audio("sounds/cheers.mp3"),
-  countdown: new Audio("sounds/race-start-beeps.mp3"), // アップロードされた音源
+  countdown: new Audio("sounds/race-start-beeps.mp3"),
   timeup: new Audio("sounds/sinkingtime.mp3"),
   question: new Audio("sounds/question.mp3")
 };
@@ -42,14 +42,13 @@ async function loadData() {
     console.log("データ読み込み完了");
   } catch (e) {
     console.error("データの読み込みに失敗しました:", e);
-    // JSONエラーがある場合、ここにエラー内容が表示されます
   }
 }
 loadData();
 
 // ================= クイズ開始 =================
 async function startQuiz(lv) {
-  if (!dataReady) { alert("データの読み込みに失敗しているか、準備中です。"); return; }
+  if (!dataReady) { alert("準備中です。"); return; }
 
   runCountdown(() => {
     document.getElementById("level-select").classList.add("hidden");
@@ -66,8 +65,10 @@ async function startQuiz(lv) {
 // --- カウントダウン演出 ---
 function runCountdown(callback) {
   const overlay = document.getElementById("countdown-overlay");
-  const numText = document.getElementById("countdown-num"); // 定義を追加
-  overlay.style.display = "flex";
+  const numText = document.getElementById("countdown-num");
+  
+  overlay.style.setProperty("display", "flex", "important"); 
+  overlay.classList.remove("hidden");
   
   playSound("countdown");
   
@@ -94,7 +95,7 @@ function runCountdown(callback) {
   }, 1000);
 }
 
-// ================= 問題表示（統合版） =================
+// ================= 問題表示 =================
 function showQuestion() {
   stopAllSounds();
   playSound("question");
@@ -111,7 +112,6 @@ function showQuestion() {
   document.getElementById("feedback").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
 
-  // モード切替：組み合わせかどうかで表示を変える
   if (q.level === "組み合わせ") {
     box4.classList.add("hidden");
     boxMatch.classList.remove("hidden");
@@ -141,17 +141,18 @@ function setupMatching(q) {
   leftSelected = null;
   matchedCount = 0;
 
+  // JSONのキー(left/right)に合わせて取得
   const leftItems = [...q.pairs].sort(() => Math.random() - 0.5);
   const rightItems = [...q.pairs].sort(() => Math.random() - 0.5);
 
   leftItems.forEach(item => {
     const b = document.createElement("button");
     b.className = "match-btn";
-    b.innerText = item.l;
+    b.innerText = item.left || item.l; // 両方の形式に対応
     b.onclick = () => {
       document.querySelectorAll("#left-col .match-btn").forEach(el => el.classList.remove("selected"));
       b.classList.add("selected");
-      leftSelected = item.l;
+      leftSelected = b.innerText;
     };
     document.getElementById("left-col").appendChild(b);
   });
@@ -159,12 +160,12 @@ function setupMatching(q) {
   rightItems.forEach(item => {
     const b = document.createElement("button");
     b.className = "match-btn";
-    b.innerText = item.r;
+    b.innerText = item.right || item.r;
     b.onclick = () => {
       if (!leftSelected) return;
-      const correctPair = q.pairs.find(p => p.l === leftSelected);
-      if (correctPair.r === item.r) {
-        markMatched(leftSelected, item.r);
+      const correctPair = q.pairs.find(p => (p.left || p.l) === leftSelected);
+      if ((correctPair.right || correctPair.r) === b.innerText) {
+        markMatched(leftSelected, b.innerText);
         matchedCount++;
         if (matchedCount === q.pairs.length) { check(99); }
       } else {
@@ -203,7 +204,7 @@ function check(idx) {
   clearTimeout(timerId);
   const q = filteredQuiz[currentIdx];
   
-  if (idx === 99) { // 組み合わせ全正解
+  if (idx === 99) {
     score++;
     playSound("correct");
     showFeedback(true, q.r, "COMPLETE!");
