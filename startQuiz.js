@@ -56,12 +56,17 @@ async function startQuiz(lv) {
   runCountdown(() => {
 
     // ★ ② クイズ画面を表示
-    document.getElementById("quiz-container").classList.remove("hidden");
+filteredQuiz = allQuizData
+  .filter(q => {
+    if (lv === "組み合わせ") {
+      return q.level === "組み合わせ"; // 組み合わせ専用
+    } else {
+      return q.level === lv && q.level !== "組み合わせ"; // 通常クイズのみ
+    }
+  })
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 10);
 
-    filteredQuiz = allQuizData
-      .filter(q => q.level === lv)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 10);
 
     currentIdx = 0;
     score = 0;
@@ -238,6 +243,12 @@ function check(idx) {
     showFeedback(false, q.r, idx === -1 ? "TIME UP" : "INCORRECT");
   }
 }
+function resetMatchingState() {
+  leftSelected = null;
+  matchedCount = 0;
+  const boxMatch = document.getElementById("matching-container");
+  if (boxMatch) boxMatch.innerHTML = "";
+}
 
 function showFeedback(ok, txt, status) {
   document.getElementById("result-text").innerText = status;
@@ -249,21 +260,37 @@ function showFeedback(ok, txt, status) {
 
 function handleNext() {
   currentIdx++;
-  if (currentIdx < filteredQuiz.length) { showQuestion(); } else { showResult(); }
+  if (currentIdx < filteredQuiz.length) { 
+    showQuestion(); 
+  } else { 
+    showResult(); 
+  }
 }
 
+/* ===== ここに入れる ===== */
 function showResult() {
   stopAllSounds();
+  clearTimeout(timerId);
+
+  // ★ 組み合わせ状態を完全リセット
+  resetMatchingState();
+
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("result-container").classList.remove("hidden");
   document.getElementById("final-score").innerText = `${score}/${filteredQuiz.length}`;
+
   playSound("cheers");
   confetti({ particleCount:120, spread:70, origin:{y:0.6} });
 }
+/* ===== ここまで ===== */
 
 function goHome() {
   stopAllSounds();
   clearTimeout(timerId);
+
+  // ★ 組み合わせ状態を完全リセット
+  resetMatchingState();
+
   document.getElementById("result-container").classList.add("hidden");
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("level-select").classList.remove("hidden");
