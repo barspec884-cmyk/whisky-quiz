@@ -265,6 +265,13 @@ function applyMatchingSuccess() {
     b.classList.add("match-all-correct");
     b.disabled = true;
   });
+
+  // COMPLETE 表示は既存の check(99) 側で出るので触らない
+
+  // ★ 2秒後に自動で次の問題へ
+  setTimeout(() => {
+    handleNext();
+  }, 2000);
 }
 
 function handleNext() {
