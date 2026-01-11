@@ -2,7 +2,7 @@
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
 const sounds = {
-  correct: new Audio("sounds/correct.mp3"),
+  countdown: new Audio("sounds/race-start-beeps.mp3"),
   incorrect: new Audio("sounds/incorrect.mp3"),
   cheers: new Audio("sounds/cheers.mp3"),
   countdown: new Audio("sounds/race-start-beeps.mp3"), // アップロードされた音源
