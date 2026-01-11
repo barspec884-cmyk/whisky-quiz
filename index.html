@@ -70,22 +70,27 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
     <div style="margin-top:20px;"><a href="https://amber-palette-hub.vercel.app/" class="home-btn" style="text-decoration:none;">← HUBへ戻る</a></div>
   </div>
 
-  <div id="quiz-container" class="hidden">
-	  <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-  <button class="home-btn" onclick="confirmHome()">✕ クイズを中断</button>
-
-  <!-- ★追加：音声トグル -->
-  <button id="sound-toggle" class="home-btn" onclick="toggleSound()">🔊 ON</button>
-</div>
- 
-    <div style="margin-bottom:15px;"><button class="home-btn" onclick="confirmHome()">✕ クイズを中断</button></div>
-    <div id="timer-container"><div id="timer-bar"></div></div>
-    <div class="progress"><span id="display-level"></span> ｜ QUESTION <span id="current-num"></span></div>
-    <div id="question-text" class="question"></div>
-    <div id="options-container" class="options"></div>
-    <div id="feedback"><div id="result-text" style="font-weight:bold;"></div><div id="rationale-text" style="font-size:.9em;color:#ccc;"></div></div>
-    <button id="next-btn" class="next-btn" onclick="handleNext()">次の問題へ進む</button>
+<div id="quiz-container" class="hidden">
+  <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+    <button class="home-btn" onclick="confirmHome()">✕ クイズを中断</button>
+    <button id="sound-toggle" class="home-btn" onclick="toggleSound()">🔊 ON</button>
   </div>
+  
+  <div id="timer-container"><div id="timer-bar"></div></div>
+  <div class="progress"><span id="display-level"></span> ｜ QUESTION <span id="current-num"></span></div>
+  
+  <div id="question-text" class="question"></div>
+
+  <div id="options-container" class="options"></div>
+
+  <div id="matching-container" class="hidden"></div>
+
+  <div id="feedback">
+    <div id="result-text" style="font-weight:bold;"></div>
+    <div id="rationale-text" style="font-size:.9em;color:#ccc;"></div>
+  </div>
+  <button id="next-btn" class="next-btn" onclick="handleNext()">次の問題へ進む</button>
+</div>
 
   <div id="result-container" class="hidden" style="text-align:center;">
     <div id="rank-name" class="rank-title" style="font-size:2em; color:var(--primary-color); font-weight:900;"></div>
