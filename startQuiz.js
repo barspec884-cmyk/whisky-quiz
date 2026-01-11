@@ -1,5 +1,4 @@
-﻿/alert("JS LOADED");
-/ ================= 音声 =================
+﻿/ ================= 音声 =================
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
 const sounds = {
