@@ -201,6 +201,9 @@ function markMatched(l, r) {
     }
   });
   leftSelected = null;
+
+  // ★② ここを追加
+  checkMatchingAnswer();
 }
 
 // --- タイマーと判定 ---
@@ -255,6 +258,13 @@ function showFeedback(ok, txt, status) {
   document.getElementById("rationale-text").innerText = txt || "";
   document.getElementById("feedback").style.display = "block";
   document.getElementById("next-btn").style.display = "block";
+}
+function applyMatchingSuccess() {
+  // すべての組み合わせボタンを緑に統一
+  document.querySelectorAll(".match-btn").forEach(b => {
+    b.classList.add("match-all-correct");
+    b.disabled = true;
+  });
 }
 
 function handleNext() {
