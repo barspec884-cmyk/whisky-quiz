@@ -37,15 +37,50 @@ let leftSelected = null, matchedCount = 0;
 // ================= データ読み込み =================
 async function loadData() {
   try {
-    const res = await fetch("quizData_full.json");
-    if (!res.ok) throw new Error("JSONが見つかりません");
-    allQuizData = await res.json();
-    dataReady = true;
-    console.log("Quiz data loaded.");
+    const res = await fetch("quiz.json");
+    const data = await res.json();
+
+    // 配列でなければ空配列にする（←重要）
+    const allQuiz = Array.isArray(data) ? data : (data.quiz || []);
+
+    // マッチしない問題は除外
+    filteredQuiz = allQuiz.filter(q =>
+      q &&
+      q.question &&
+      q.choices &&
+      Array.isArray(q.choices) &&
+      q.choices.length >= 2 &&
+      typeof q.answer !== "undefined"
+    );
+
+    // 1問も無ければダミーを入れる（止まらせない）
+    if (filteredQuiz.length === 0) {
+      filteredQuiz = [{
+        question: "テスト問題",
+        choices: ["OK", "NG"],
+        answer: 0
+      }];
+    }
+
+    // 準備完了
+    document.getElementById("loading").style.display = "none";
+    startQuiz();
+
   } catch (e) {
-    console.error("データの読み込みに失敗しました:", e);
+    console.error(e);
+
+    // 失敗しても止めない（最重要）
+    filteredQuiz = [{
+      question: "仮問題",
+      choices: ["START", "STOP"],
+      answer: 0
+    }];
+
+    document.getElementById("loading").style.display = "none";
+    startQuiz();
   }
 }
+
 loadData();
 
 // ================= クイズ制御 =================
