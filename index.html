@@ -52,8 +52,10 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
 <body>
 
 <div id="quiz-app">
-  <div id="countdown-overlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(26,26,26,0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:100;">
-    <div id="countdown-num" style="font-size:8em; font-weight:900; color:var(--primary-color);"></div>
+<div id="countdown-overlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(26,26,26,0.95); flex-direction:column; justify-content:center; align-items:center; z-index:100;">
+  <div id="countdown-num" style="font-size:8em; font-weight:900; color:var(--primary-color);"></div>
+  <div id="countdown-label" style="font-size:1.5em; letter-spacing:5px; margin-top:10px;">READY...</div>
+</div>
     <div id="countdown-label" style="font-size:1.5em; letter-spacing:5px; margin-top:10px;">READY...</div>
   </div>
 

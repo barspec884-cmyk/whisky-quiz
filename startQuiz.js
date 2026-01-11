@@ -5,7 +5,7 @@ const sounds = {
   correct: new Audio("sounds/correct.mp3"),
   incorrect: new Audio("sounds/incorrect.mp3"),
   cheers: new Audio("sounds/cheers.mp3"),
-  countdown: new Audio("sounds/thinkingtime.mp3"),
+  countdown: new Audio("sounds/thinkingtime.mp3"), // ここがsinkingtimeになっていないか確認
   timeup: new Audio("sounds/sinkingtime.mp3"),
   question: new Audio("sounds/question.mp3")
 };
@@ -19,12 +19,8 @@ function playSound(name) {
 }
 
 function stopAllSounds() {
-  Object.values(sounds).forEach(s => {
-    s.pause();
-    s.currentTime = 0;
-  });
+  Object.values(sounds).forEach(s => { s.pause(); s.currentTime = 0; });
 }
-
 function toggleSound() {
   soundEnabled = !soundEnabled;
   localStorage.setItem("sound", soundEnabled ? "on" : "off");
@@ -53,18 +49,48 @@ loadData();
 async function startQuiz(lv) {
   if (!dataReady) { alert("準備中です"); return; }
 
-  document.getElementById("level-select").classList.add("hidden");
-  document.getElementById("quiz-container").classList.remove("hidden");
+  // カウントダウン開始
+  runCountdown(() => {
+    document.getElementById("level-select").classList.add("hidden");
+    document.getElementById("quiz-container").classList.remove("hidden");
 
-  // 指定したレベルのクイズを抽出し、ランダムに10問選ぶ
-  filteredQuiz = allQuizData.filter(q => q.level === lv).sort(() => Math.random() - 0.5).slice(0, 10);
-  currentIdx = 0;
-  score = 0;
-  timeLimit = (lv === "上級" || lv === "カルト級") ? 30 : 15;
-  document.getElementById("display-level").innerText = lv;
+    filteredQuiz = allQuizData.filter(q => q.level === lv).sort(() => Math.random() - 0.5).slice(0, 10);
+    currentIdx = 0; score = 0;
+    timeLimit = (lv === "上級" || lv === "カルト級") ? 30 : 15;
+    document.getElementById("display-level").innerText = lv;
+    showQuestion();
+  });
+}
 
-  document.getElementById("sound-toggle").innerText = soundEnabled ? "🔊 ON" : "🔇 OFF";
-  showQuestion();
+// 追加：演出用カウントダウン関数
+function runCountdown(callback) {
+  const overlay = document.getElementById("countdown-overlay");
+  const numText = document.getElementById("countdown-num");
+  overlay.style.display = "flex"; // ここで表示
+  overlay.classList.remove("hidden");
+  
+  let count = 3;
+  numText.innerText = count;
+  numText.classList.add("pop-num");
+
+  const interval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      numText.innerText = count;
+      // アニメーションを再トリガー
+      numText.classList.remove("pop-num");
+      void numText.offsetWidth;
+      numText.classList.add("pop-num");
+    } else {
+      clearInterval(interval);
+      numText.innerText = "START!";
+      setTimeout(() => {
+        overlay.style.display = "none";
+        overlay.classList.add("hidden");
+        callback();
+      }, 500);
+    }
+  }, 1000);
 }
 
 function showQuestion() {
