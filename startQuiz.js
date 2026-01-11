@@ -5,7 +5,7 @@ const sounds = {
   correct: new Audio("sounds/correct.mp3"),
   incorrect: new Audio("sounds/incorrect.mp3"),
   cheers: new Audio("sounds/cheers.mp3"),
-  countdown: new Audio("sounds/race-start-beeps.mp3"), // アップロードされた音源名に修正
+  countdown: new Audio("sounds/race-start-beeps.mp3"), // アップロードされた音源
   timeup: new Audio("sounds/sinkingtime.mp3"),
   question: new Audio("sounds/question.mp3")
 };
@@ -32,21 +32,24 @@ let allQuizData = [], filteredQuiz = [];
 let currentIdx = 0, score = 0, timerId = null, timeLimit = 15;
 let dataReady = false;
 
-// ================= データ =================
+// ================= データ読み込み =================
 async function loadData() {
   try {
     const res = await fetch("quizData_full.json");
+    if (!res.ok) throw new Error("JSONが見つかりません");
     allQuizData = await res.json();
     dataReady = true;
+    console.log("データ読み込み完了");
   } catch (e) {
     console.error("データの読み込みに失敗しました:", e);
+    // JSONエラーがある場合、ここにエラー内容が表示されます
   }
 }
 loadData();
 
 // ================= クイズ開始 =================
 async function startQuiz(lv) {
-  if (!dataReady) { alert("準備中です"); return; }
+  if (!dataReady) { alert("データの読み込みに失敗しているか、準備中です。"); return; }
 
   runCountdown(() => {
     document.getElementById("level-select").classList.add("hidden");
@@ -63,10 +66,10 @@ async function startQuiz(lv) {
 // --- カウントダウン演出 ---
 function runCountdown(callback) {
   const overlay = document.getElementById("countdown-overlay");
-  const numText = document.getElementById("countdown-num"); // ←ここを追加しました
+  const numText = document.getElementById("countdown-num"); // 定義を追加
   overlay.style.display = "flex";
   
-  playSound("countdown"); // レーススタート音を再生
+  playSound("countdown");
   
   let count = 3;
   numText.innerText = count;
@@ -108,6 +111,7 @@ function showQuestion() {
   document.getElementById("feedback").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
 
+  // モード切替：組み合わせかどうかで表示を変える
   if (q.level === "組み合わせ") {
     box4.classList.add("hidden");
     boxMatch.classList.remove("hidden");
@@ -127,7 +131,7 @@ function showQuestion() {
   startTimer();
 }
 
-// --- 組み合わせ問題のロジック ---
+// --- 組み合わせ問題の構築 ---
 let leftSelected = null;
 let matchedCount = 0;
 
@@ -199,8 +203,7 @@ function check(idx) {
   clearTimeout(timerId);
   const q = filteredQuiz[currentIdx];
   
-  // 組み合わせ全問正解(99)の場合
-  if (idx === 99) {
+  if (idx === 99) { // 組み合わせ全正解
     score++;
     playSound("correct");
     showFeedback(true, q.r, "COMPLETE!");
