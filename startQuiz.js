@@ -1,4 +1,4 @@
-﻿// ================= 音声 =================
+﻿function goHome() {// ================= 音声 =================
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
 const sounds = {
@@ -180,10 +180,15 @@ function setupMatching(q) {
     b.onclick = () => {
       if (!leftSelected) return;
       const correctPair = q.pairs.find(p => (p.left || p.l) === leftSelected);
-      if ((correctPair.right || correctPair.r) === b.innerText) {
-        markMatched(leftSelected, b.innerText);
-        matchedCount++;
-        if (matchedCount === q.pairs.length) { check(99); }
+if ((correctPair.right || correctPair.r) === b.innerText) {
+        matchedCount++; // カウントを増やす
+        markMatched(leftSelected, b.innerText); 
+        
+        // 全部正解したか判定
+        if (matchedCount === q.pairs.length) { 
+          check(99); 
+          applyMatchingSuccess(); // 演出用関数を呼び出し
+        }
       } else {
         b.classList.add("shake");
         setTimeout(() => b.classList.remove("shake"), 300);
@@ -201,7 +206,8 @@ function markMatched(l, r) {
     }
   });
   leftSelected = null;
-
+  // checkMatchingAnswer(); は削除してOKです
+}
   // ★修正：未定義関数の代わりに、ここで全問正解判定を行う
   const totalPairs = filteredQuiz[currentIdx].pairs.length;
   if (matchedCount === totalPairs) {
