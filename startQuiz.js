@@ -206,19 +206,7 @@ function markMatched(l, r) {
     }
   });
   leftSelected = null;
-}
-
-// ← ここで関数は終わっているのに…
-
-const totalPairs = filteredQuiz[currentIdx].pairs.length;
-if (matchedCount === totalPairs) {
-  check(99);
-}
-}
-
-
-  // ★② ここを追加
-  checkMatchingAnswer();
+  // ここに何も書かなければエラーは出ません
 }
 
 // --- タイマーと判定 ---
