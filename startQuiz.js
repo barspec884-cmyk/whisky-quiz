@@ -50,17 +50,30 @@ loadData();
 async function startQuiz(lv) {
   if (!dataReady) { alert("準備中です。"); return; }
 
+  // ★ ① 押した瞬間にレベル選択を消す（最重要）
+  document.getElementById("level-select").classList.add("hidden");
+
   runCountdown(() => {
-    document.getElementById("level-select").classList.add("hidden");
+
+    // ★ ② クイズ画面を表示
     document.getElementById("quiz-container").classList.remove("hidden");
 
-    filteredQuiz = allQuizData.filter(q => q.level === lv).sort(() => Math.random() - 0.5).slice(0, 10);
-    currentIdx = 0; score = 0;
+    filteredQuiz = allQuizData
+      .filter(q => q.level === lv)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 10);
+
+    currentIdx = 0;
+    score = 0;
+
     timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
+
     document.getElementById("display-level").innerText = lv;
+
     showQuestion();
   });
 }
+
 
 // --- カウントダウン演出 ---
 function runCountdown(callback) {
