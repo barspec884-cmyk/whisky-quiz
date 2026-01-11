@@ -49,25 +49,128 @@ loadData();
 async function startQuiz(lv) {
   if (!dataReady) { alert("準備中です"); return; }
 
-  // カウントダウン開始
   runCountdown(() => {
     document.getElementById("level-select").classList.add("hidden");
     document.getElementById("quiz-container").classList.remove("hidden");
 
+    // フィルター。lvが「組み合わせ」の場合はそれ専用のデータを取得
     filteredQuiz = allQuizData.filter(q => q.level === lv).sort(() => Math.random() - 0.5).slice(0, 10);
     currentIdx = 0; score = 0;
-    timeLimit = (lv === "上級" || lv === "カルト級") ? 30 : 15;
+    timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
     document.getElementById("display-level").innerText = lv;
     showQuestion();
   });
 }
 
+function showQuestion() {
+  stopAllSounds();
+  playSound("question");
+
+  const q = filteredQuiz[currentIdx];
+  document.getElementById("current-num").innerText = `${currentIdx + 1}/${filteredQuiz.length}`;
+  document.getElementById("question-text").innerText = q.q;
+
+  const box4 = document.getElementById("options-container");
+  const boxMatch = document.getElementById("matching-container");
+  
+  document.getElementById("feedback").style.display = "none";
+  document.getElementById("next-btn").style.display = "none";
+
+  // モード切替
+  if (q.level === "組み合わせ") {
+    box4.classList.add("hidden");
+    boxMatch.classList.remove("hidden");
+    setupMatching(q); // 組み合わせ問題の構築
+  } else {
+    boxMatch.classList.add("hidden");
+    box4.classList.remove("hidden");
+    box4.innerHTML = "";
+    q.a.forEach((t, i) => {
+      const b = document.createElement("button");
+      b.className = "option-btn";
+      b.innerText = t;
+      b.onclick = () => check(i);
+      box4.appendChild(b);
+    });
+  }
+  startTimer();
+}
+
+// --- 組み合わせ問題の専用ロジック ---
+let leftSelected = null;
+let matchedCount = 0;
+
+function setupMatching(q) {
+  const boxMatch = document.getElementById("matching-container");
+  boxMatch.innerHTML = '<div class="matching-grid"><div id="left-col" class="matching-column"></div><div id="right-col" class="matching-column"></div></div>';
+  
+  leftSelected = null;
+  matchedCount = 0;
+
+  // データ構造例: q.pairs = [{l:"山崎", r:"サントリー"}, {l:"余市", r:"ニッカ"}]
+  const leftItems = [...q.pairs].sort(() => Math.random() - 0.5);
+  const rightItems = [...q.pairs].sort(() => Math.random() - 0.5);
+
+  const leftCol = document.getElementById("left-col");
+  const rightCol = document.getElementById("right-col");
+
+  leftItems.forEach(item => {
+    const b = document.createElement("button");
+    b.className = "match-btn";
+    b.innerText = item.l;
+    b.onclick = () => {
+      document.querySelectorAll("#left-col .match-btn").forEach(el => el.classList.remove("selected"));
+      b.classList.add("selected");
+      leftSelected = item.l;
+    };
+    leftCol.appendChild(b);
+  });
+
+  rightItems.forEach(item => {
+    const b = document.createElement("button");
+    b.className = "match-btn";
+    b.innerText = item.r;
+    b.onclick = () => {
+      if (!leftSelected) return;
+      // 正誤判定
+      const correctPair = q.pairs.find(p => p.l === leftSelected);
+      if (correctPair.r === item.r) {
+        // 正解：ボタンを消すか色を変える
+        markMatched(leftSelected, item.r);
+        matchedCount++;
+        if (matchedCount === q.pairs.length) {
+          check(99); // 全部正解
+        }
+      } else {
+        // 不正解演出
+        b.classList.add("shake");
+        setTimeout(() => b.classList.remove("shake"), 300);
+      }
+    };
+    rightCol.appendChild(b);
+  });
+}
+
+function markMatched(l, r) {
+  document.querySelectorAll(".match-btn").forEach(b => {
+    if (b.innerText === l || b.innerText === r) {
+      b.classList.add("matched");
+      b.disabled = true;
+    }
+  });
+  leftSelected = null;
+}
+
 // 追加：演出用カウントダウン関数
 function runCountdown(callback) {
   const overlay = document.getElementById("countdown-overlay");
-  const numText = document.getElementById("countdown-num");
-  overlay.style.display = "flex"; // ここで表示
-  overlay.classList.remove("hidden");
+  overlay.style.display = "flex";
+	
+	// ★ここで音を鳴らす（スマホ対策：ユーザー操作直後なら鳴ります）
+  const startSound = sounds.countdown;
+  startSound.currentTime = 0;
+  startSound.loop = false; // レーススタート音ならループ解除がおすすめ
+  startSound.play().catch(e => console.log("Audio Error:", e));
   
   let count = 3;
   numText.innerText = count;
