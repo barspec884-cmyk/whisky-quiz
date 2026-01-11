@@ -38,7 +38,7 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
 .match-btn { background: #3d3d3d; border: 1px solid #555; color: white; padding: 12px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85em; min-height: 60px; }
 .match-btn.selected { border-color: var(--primary-color); background: rgba(210, 105, 30, 0.2); }
 .match-btn.matched { background: #4caf50; border-color: #4caf50; cursor: default; }
-	/* 画面フラッシュ演出 */
+/* 画面フラッシュ演出 */
 .flash-white {
     animation: flashFade 0.5s ease-out;
 }
@@ -56,23 +56,31 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
         min-height: 50px;
     }
 }
-
 /* 選択中のボタンを強調 */
 .match-btn.selected {
     border: 2px solid var(--primary-color) !important;
     background: rgba(210, 105, 30, 0.3) !important;
 }
-  /* === 組み合わせ問題：全問正解時の統一グリーン === */
+ /* === 組み合わせ問題：全問正解時の統一グリーン === */
   .match-all-correct {
     background: #2ecc71 !important;
     color: #ffffff !important;
     border-color: #2ecc71 !important;
   }
-  #quiz-container h1,
-  #quiz-container h3 {
-    display: none;
-  }
-</style>
+// 手動で開け閉めするための関数
+function toggleLevel() {
+    const content = document.getElementById('level-content');
+    if (content.style.display === 'none') {
+        content.style.display = 'block'; // 表示
+    } else {
+        content.style.display = 'none';  // 非表示
+    }
+}	
+/* ここに追記 */
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -83,7 +91,6 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
     <div id="countdown-label" style="font-size:1.2em; letter-spacing:5px; margin-top:10px; color:#aaa;">READY...</div>
   </div>
 </div>
-
   <div id="level-select" class="level-menu">
     <h1 style="color:var(--primary-color);margin-bottom:5px;">Amber Palette</h1>
     <h3 style="margin-top:0;opacity:.7;">Whisky Quiz Master</h3>
@@ -94,14 +101,12 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
     <button class="level-btn" onclick="startQuiz('組み合わせ')">組み合わせ</button>
     <div style="margin-top:20px;"><a href="https://amber-palette-hub.vercel.app/" class="home-btn" style="text-decoration:none;">← HUBへ戻る</a></div>
   </div>
-
 <div id="quiz-container" class="hidden">
   <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
     <button class="home-btn" onclick="confirmHome()">✕ クイズを中断</button>
     <button id="sound-toggle" class="home-btn" onclick="toggleSound()">🔊 ON</button>
   </div>
-  
-  <div id="timer-container"><div id="timer-bar"></div></div>
+    <div id="timer-container"><div id="timer-bar"></div></div>
   <div class="progress"><span id="display-level"></span> ｜ QUESTION <span id="current-num"></span></div>
   
   <div id="question-text" class="question"></div>
@@ -124,12 +129,21 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
     <button class="home-btn" onclick="goHome()">レベル選択へ戻る</button>
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="startQuiz.js" defer></script>
-
 <script>
-function confirmHome(){ if(confirm("クイズを中断してレベル選択に戻りますか？")){ goHome(); } }
+function confirmHome(){
+  if(confirm("クイズを中断してレベル選択に戻りますか？")){
+    goHome();
+  }
+}
+
+// 手動で開け閉めするための関数
+function toggleLevel() {
+  const content = document.getElementById('level-content');
+  if (!content) return;
+  content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+}	
 </script>
 </body>
 </html>

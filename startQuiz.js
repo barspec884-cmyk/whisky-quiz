@@ -105,27 +105,31 @@ function runCountdown(callback) {
 function showQuestion() {
   stopAllSounds();
   playSound("question");
-  
   const q = filteredQuiz[currentIdx];
   if (!q) { showResult(); return; }
-
-  // UIリセット
-  document.getElementById("current-num").innerText = `${currentIdx + 1}/${filteredQuiz.length}`;
-  document.getElementById("question-text").innerText = q.q;
-  document.getElementById("feedback").style.display = "none";
-  document.getElementById("next-btn").style.display = "none";
 
   const box4 = document.getElementById("options-container");
   const boxMatch = document.getElementById("matching-container");
 
+  // --- 追加・修正ポイント ---
+  // 一旦両方を隠し、中身をリセットして「残骸」を消す
+  box4.classList.add("hidden");
+  box4.innerHTML = ""; 
+  boxMatch.classList.add("hidden");
+  boxMatch.innerHTML = "";
+  // -----------------------
+
+  document.getElementById("feedback").style.display = "none";
+  document.getElementById("next-btn").style.display = "none";
+
+  document.getElementById("current-num").innerText = `${currentIdx + 1}/${filteredQuiz.length}`;
+  document.getElementById("question-text").innerText = q.q;
+
   if (q.level === "組み合わせ") {
-    box4.classList.add("hidden");
     boxMatch.classList.remove("hidden");
     setupMatching(q);
   } else {
-    boxMatch.classList.add("hidden");
     box4.classList.remove("hidden");
-    box4.innerHTML = "";
     q.a.forEach((t, i) => {
       const b = document.createElement("button");
       b.className = "option-btn";
