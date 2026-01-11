@@ -125,7 +125,8 @@ function showQuestion() {
   document.getElementById("current-num").innerText = `${currentIdx + 1}/${filteredQuiz.length}`;
   document.getElementById("question-text").innerText = q.q;
 
-  if (q.level === "組み合わせ") {
+if (q.type === "matching") {
+
     boxMatch.classList.remove("hidden");
     setupMatching(q);
   } else {
