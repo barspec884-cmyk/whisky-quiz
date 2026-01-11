@@ -1,4 +1,4 @@
-﻿// ================= 音声 =================
+﻿// ================= 音声管理 =================
 let soundEnabled = localStorage.getItem("sound") !== "off";
 
 const sounds = {
@@ -23,14 +23,16 @@ function stopAllSounds() {
 function toggleSound() {
   soundEnabled = !soundEnabled;
   localStorage.setItem("sound", soundEnabled ? "on" : "off");
-  document.getElementById("sound-toggle").innerText = soundEnabled ? "🔊 ON" : "🔇 OFF";
+  const btn = document.getElementById("sound-toggle");
+  if (btn) btn.innerText = soundEnabled ? "🔊 ON" : "🔇 OFF";
   if (!soundEnabled) stopAllSounds();
 }
 
-// ================= 状態 =================
+// ================= クイズ状態管理 =================
 let allQuizData = [], filteredQuiz = [];
 let currentIdx = 0, score = 0, timerId = null, timeLimit = 15;
 let dataReady = false;
+let leftSelected = null, matchedCount = 0;
 
 // ================= データ読み込み =================
 async function loadData() {
@@ -39,39 +41,41 @@ async function loadData() {
     if (!res.ok) throw new Error("JSONが見つかりません");
     allQuizData = await res.json();
     dataReady = true;
-    console.log("データ読み込み完了");
+    console.log("Quiz data loaded.");
   } catch (e) {
     console.error("データの読み込みに失敗しました:", e);
   }
 }
 loadData();
 
-// ================= クイズ開始 =================
+// ================= クイズ制御 =================
 async function startQuiz(lv) {
   if (!dataReady) { alert("準備中です。"); return; }
-  document.getElementById("level-select").classList.add("hidden");
+  
+  const levelSelect = document.getElementById("level-select");
+  if (levelSelect) levelSelect.classList.add("hidden");
 
   runCountdown(() => {
     document.getElementById("quiz-container").classList.remove("hidden");
     document.getElementById("result-container").classList.add("hidden");
 
+    // レベルフィルタリング
     filteredQuiz = allQuizData
-      .filter(q => {
-        if (lv === "組み合わせ") return q.level === "組み合わせ";
-        return q.level === lv && q.level !== "組み合わせ";
-      })
+      .filter(q => (lv === "組み合わせ") ? q.level === "組み合わせ" : (q.level === lv && q.level !== "組み合わせ"))
       .sort(() => Math.random() - 0.5)
       .slice(0, 10);
 
     currentIdx = 0;
     score = 0;
     timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
-    document.getElementById("display-level").innerText = lv;
+    
+    const displayLv = document.getElementById("display-level");
+    if (displayLv) displayLv.innerText = lv;
+    
     showQuestion();
   });
-}  
+}
 
-// --- カウントダウン演出 ---
 function runCountdown(callback) {
   const overlay = document.getElementById("countdown-overlay");
   const numText = document.getElementById("countdown-num");
@@ -101,15 +105,18 @@ function runCountdown(callback) {
 function showQuestion() {
   stopAllSounds();
   playSound("question");
+  
   const q = filteredQuiz[currentIdx];
   if (!q) { showResult(); return; }
 
+  // UIリセット
   document.getElementById("current-num").innerText = `${currentIdx + 1}/${filteredQuiz.length}`;
   document.getElementById("question-text").innerText = q.q;
-  const box4 = document.getElementById("options-container");
-  const boxMatch = document.getElementById("matching-container");
   document.getElementById("feedback").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
+
+  const box4 = document.getElementById("options-container");
+  const boxMatch = document.getElementById("matching-container");
 
   if (q.level === "組み合わせ") {
     box4.classList.add("hidden");
@@ -130,11 +137,15 @@ function showQuestion() {
   startTimer();
 }
 
-let leftSelected = null, matchedCount = 0;
-
+// --- マッチング形式のセットアップ ---
 function setupMatching(q) {
   const boxMatch = document.getElementById("matching-container");
-  boxMatch.innerHTML = '<div class="matching-grid"><div id="left-col" class="matching-column"></div><div id="right-col" class="matching-column"></div></div>';
+  boxMatch.innerHTML = `
+    <div class="matching-grid">
+      <div id="left-col" class="matching-column"></div>
+      <div id="right-col" class="matching-column"></div>
+    </div>`;
+  
   leftSelected = null;
   matchedCount = 0;
 
@@ -164,8 +175,7 @@ function setupMatching(q) {
         matchedCount++;
         markMatched(leftSelected, b.innerText); 
         if (matchedCount === q.pairs.length) { 
-          check(99); 
-          applyMatchingSuccess();
+          check(99); // 全問正解
         }
       } else {
         b.classList.add("shake");
@@ -186,13 +196,16 @@ function markMatched(l, r) {
   leftSelected = null;
 }
 
+// ================= 判定・タイマー =================
 function startTimer() {
   const bar = document.getElementById("timer-bar");
+  if (!bar) return;
   bar.style.transition = "none";
   bar.style.width = "100%";
-  void bar.offsetWidth;
+  void bar.offsetWidth; // リフロー強制
   bar.style.transition = `width ${timeLimit}s linear`;
   bar.style.width = "0%";
+  
   clearTimeout(timerId);
   timerId = setTimeout(() => check(-1), timeLimit * 1000);
 }
@@ -201,14 +214,20 @@ function check(idx) {
   stopAllSounds();
   clearTimeout(timerId);
   const q = filteredQuiz[currentIdx];
+
+  // 1. マッチング全問正解の場合
   if (idx === 99) {
     score++;
     playSound("correct");
+    applyMatchingSuccessEffect(); // 視覚演出
     showFeedback(true, q.r, "COMPLETE!");
     return;
   }
+
+  // 2. 通常の4択判定
   const btns = document.querySelectorAll(".option-btn");
   btns.forEach(b => b.disabled = true);
+
   if (idx === q.c) {
     if (btns[idx]) btns[idx].classList.add("correct");
     score++;
@@ -222,31 +241,23 @@ function check(idx) {
   }
 }
 
-function resetMatchingState() {
-  leftSelected = null;
-  matchedCount = 0;
-  const boxMatch = document.getElementById("matching-container");
-  if (boxMatch) boxMatch.innerHTML = "";
-}
-
 function showFeedback(ok, txt, status) {
-  document.getElementById("result-text").innerText = status;
-  document.getElementById("result-text").style.color = ok ? "#4caf50" : "#ef5350";
+  const resText = document.getElementById("result-text");
+  resText.innerText = status;
+  resText.style.color = ok ? "#4caf50" : "#ef5350";
   document.getElementById("rationale-text").innerText = txt || "";
   document.getElementById("feedback").style.display = "block";
   document.getElementById("next-btn").style.display = "block";
 }
 
-function applyMatchingSuccess() {
+function applyMatchingSuccessEffect() {
   document.querySelectorAll(".match-btn").forEach(b => {
     b.classList.add("match-all-correct");
     b.disabled = true;
   });
-  setTimeout(() => {
-    handleNext();
-  }, 2000);
 }
 
+// ================= 進行管理 =================
 function handleNext() {
   currentIdx++;
   if (currentIdx < filteredQuiz.length) { 
@@ -259,18 +270,18 @@ function handleNext() {
 function showResult() {
   stopAllSounds();
   clearTimeout(timerId);
-  resetMatchingState();
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("result-container").classList.remove("hidden");
   document.getElementById("final-score").innerText = `${score}/${filteredQuiz.length}`;
   playSound("cheers");
-  confetti({ particleCount:120, spread:70, origin:{y:0.6} });
+  if (typeof confetti === "function") {
+    confetti({ particleCount:120, spread:70, origin:{y:0.6} });
+  }
 }
 
 function goHome() {
   stopAllSounds();
   clearTimeout(timerId);
-  resetMatchingState();
   document.getElementById("result-container").classList.add("hidden");
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("level-select").classList.remove("hidden");
