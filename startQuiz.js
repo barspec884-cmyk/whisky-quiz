@@ -202,6 +202,13 @@ function markMatched(l, r) {
   });
   leftSelected = null;
 
+  // ★修正：未定義関数の代わりに、ここで全問正解判定を行う
+  const totalPairs = filteredQuiz[currentIdx].pairs.length;
+  if (matchedCount === totalPairs) {
+    check(99); // 全問正解時の処理へ
+  }
+}
+
   // ★② ここを追加
   checkMatchingAnswer();
 }
