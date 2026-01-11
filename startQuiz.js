@@ -67,27 +67,26 @@ function runCountdown(callback) {
   const overlay = document.getElementById("countdown-overlay");
   const numText = document.getElementById("countdown-num");
   
-  overlay.style.setProperty("display", "flex", "important"); 
+  // 開始時に表示を flex に固定
+  overlay.style.display = "flex"; 
   overlay.classList.remove("hidden");
   
   playSound("countdown");
   
   let count = 3;
   numText.innerText = count;
-  numText.classList.add("pop-num");
 
   const interval = setInterval(() => {
     count--;
     if (count > 0) {
       numText.innerText = count;
-      numText.classList.remove("pop-num");
-      void numText.offsetWidth;
-      numText.classList.add("pop-num");
     } else {
       clearInterval(interval);
       numText.innerText = "START!";
+      
+      // 0.5秒後に完全に非表示にする
       setTimeout(() => {
-        overlay.style.display = "none";
+        overlay.style.setProperty("display", "none", "important"); // 強制非表示
         overlay.classList.add("hidden");
         callback();
       }, 500);
