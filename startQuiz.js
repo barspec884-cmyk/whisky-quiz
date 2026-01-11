@@ -53,31 +53,34 @@ async function startQuiz(lv) {
   // ★ ① 押した瞬間にレベル選択を消す（最重要）
   document.getElementById("level-select").classList.add("hidden");
 
+	
+	
+	
+	
   runCountdown(() => {
+	    // ★★★ これを必ず入れる ★★★
+  document.getElementById("quiz-container").classList.remove("hidden");
+  document.getElementById("result-container").classList.add("hidden");
 
-    // ★ ② クイズ画面を表示
-filteredQuiz = allQuizData
-  .filter(q => {
-    if (lv === "組み合わせ") {
-      return q.level === "組み合わせ"; // 組み合わせ専用
-    } else {
-      return q.level === lv && q.level !== "組み合わせ"; // 通常クイズのみ
-    }
-  })
-  .sort(() => Math.random() - 0.5)
-  .slice(0, 10);
+  filteredQuiz = allQuizData
+    .filter(q => {
+      if (lv === "組み合わせ") {
+        return q.level === "組み合わせ";
+      } else {
+        return q.level === lv && q.level !== "組み合わせ";
+      }
+    })
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 10);
 
+  currentIdx = 0;
+  score = 0;
 
-    currentIdx = 0;
-    score = 0;
+  timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
+  document.getElementById("display-level").innerText = lv;
 
-    timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
-
-    document.getElementById("display-level").innerText = lv;
-
-    showQuestion();
-  });
-}
+  showQuestion();
+});
 
 
 // --- カウントダウン演出 ---
