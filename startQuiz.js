@@ -53,11 +53,7 @@ async function startQuiz(lv) {
   // ★ ① 押した瞬間にレベル選択を消す（最重要）
   document.getElementById("level-select").classList.add("hidden");
 
-	
-	
-	
-	
-  runCountdown(() => {
+	runCountdown(() => {
 	    // ★★★ これを必ず入れる ★★★
   document.getElementById("quiz-container").classList.remove("hidden");
   document.getElementById("result-container").classList.add("hidden");
@@ -81,7 +77,7 @@ async function startQuiz(lv) {
 
   showQuestion();
 });
-
+}  
 
 // --- カウントダウン演出 ---
 function runCountdown(callback) {
