@@ -37,7 +37,7 @@ let leftSelected = null, matchedCount = 0;
 // ================= データ読み込み =================
 async function loadData() {
   try {
-    const res = await fetch("quiz.json");
+    const res = await fetch("quizData_full.json");
     const data = await res.json();
 
     // 配列でなければ空配列にする（←重要）
@@ -83,57 +83,71 @@ async function loadData() {
 
 loadData();
 
-// ================= クイズ制御 =================
-async function startQuiz(lv) {
-  if (!dataReady) { alert("準備中です。"); return; }
-  
-  const levelSelect = document.getElementById("level-select");
-  if (levelSelect) levelSelect.classList.add("hidden");
+// ================= データ読み込み（完全対応版） =================
+async function loadData() {
+  try {
+    const res = await fetch("quizData_full.json");
+    if (!res.ok) throw new Error("JSON load failed");
 
-  runCountdown(() => {
-    document.getElementById("quiz-container").classList.remove("hidden");
-    document.getElementById("result-container").classList.add("hidden");
+    const raw = await res.json();
 
-    // レベルフィルタリング
-    filteredQuiz = allQuizData
-      .filter(q => (lv === "組み合わせ") ? q.level === "組み合わせ" : (q.level === lv && q.level !== "組み合わせ"))
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 10);
+    // 配列 or {quiz: []} の両対応
+    const source = Array.isArray(raw) ? raw : (raw.quiz || []);
 
-    currentIdx = 0;
-    score = 0;
-    timeLimit = (lv === "上級" || lv === "カルト級" || lv === "組み合わせ") ? 30 : 15;
-    
-    const displayLv = document.getElementById("display-level");
-    if (displayLv) displayLv.innerText = lv;
-    
-    showQuestion();
-  });
-}
+    // 正規化（JS側仕様に完全変換）
+    allQuizData = source
+      .filter(q =>
+        q &&
+        q.question &&
+        Array.isArray(q.choices) &&
+        q.choices.length >= 2 &&
+        typeof q.answer === "number"
+      )
+      .map(q => ({
+        // === 表示系 ===
+        q: q.question,          // 問題文
+        a: q.choices,           // 選択肢
+        c: q.answer,            // 正解 index
+        r: q.explanation || "", // 解説（任意）
 
-function runCountdown(callback) {
-  const overlay = document.getElementById("countdown-overlay");
-  const numText = document.getElementById("countdown-num");
-  overlay.style.display = "flex"; 
-  overlay.classList.remove("hidden");
-  playSound("countdown");
-  
-  let count = 3;
-  numText.innerText = count;
-  const interval = setInterval(() => {
-    count--;
-    if (count > 0) {
-      numText.innerText = count;
-    } else {
-      clearInterval(interval);
-      numText.innerText = "START!";
-      setTimeout(() => {
-        overlay.style.setProperty("display", "none", "important");
-        overlay.classList.add("hidden");
-        callback();
-      }, 500);
+        // === 制御系 ===
+        level: q.level || "初級",
+        type: q.type || "normal",
+
+        // === 組み合わせ用（存在すれば）===
+        pairs: q.pairs || null
+      }));
+
+    // 1問も無ければ強制ダミー（止まらせない）
+    if (allQuizData.length === 0) {
+      allQuizData = [{
+        q: "テスト問題",
+        a: ["OK", "NG"],
+        c: 0,
+        r: "",
+        level: "初級",
+        type: "normal"
+      }];
     }
-  }, 1000);
+
+    dataReady = true; // ★最重要
+    console.log("Quiz data ready:", allQuizData.length);
+
+  } catch (e) {
+    console.error("Quiz load error:", e);
+
+    // 読み込み失敗時も必ず進める
+    allQuizData = [{
+      q: "仮問題（JSON未読込）",
+      a: ["START", "STOP"],
+      c: 0,
+      r: "",
+      level: "初級",
+      type: "normal"
+    }];
+
+    dataReady = true; // ★必須
+  }
 }
 
 // ================= 問題表示 =================
