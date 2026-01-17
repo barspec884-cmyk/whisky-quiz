@@ -54,6 +54,51 @@ body { font-family:'Helvetica Neue',Arial,sans-serif; background:var(--bg-color)
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
+	/* index.html の <style> 内に追加 */
+.option-btn.selected {
+    background-color: var(--primary-color) !important;
+    border-color: white;
+    box-shadow: 0 0 10px rgba(210, 105, 30, 0.5);
+}
+	/* index.html の <style> セクションを修正 */
+
+/* 回答を確定するボタン用の新しいスタイル */
+.submit-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 18px;
+    background: #2a5d84; /* 落ち着いたネイビー・ブルー */
+    border: 1px solid #4a8db7;
+    color: white;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    background: #3472a6;
+}
+
+/* 次の問題へ進むボタン（既存のクラスを微調整） */
+.next-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 18px;
+    background: var(--primary-color); /* 元の琥珀色 */
+    border: none;
+    color: white;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    transition: 0.2s;
+    box-shadow: 0 4px 15px rgba(210, 105, 30, 0.3);
+}
+
+.next-btn:hover {
+    filter: brightness(1.1);
+}
 </style>
 </head>
 <body>

@@ -38,19 +38,16 @@ function toggleSound() {
     if (!soundEnabled) stopAllSounds();
 }
 
-// ★ここが「startQuiz」関数です！
 function startQuiz(level) {
     stopAllSounds();
     
     if (level === '実力テスト') {
-        // 全問題データを使用
         currentQuestions = [...whiskyQuizData]; 
     } else {
-        // 指定されたレベルのみ抽出
         currentQuestions = whiskyQuizData.filter(q => q.level === level);
     }
 
-    // 10問をランダムに選ぶ
+    // ★テスト用：特定の設問（キルダルトン等）を確認したい時は下の行の先頭に // を入れて無効化してください
     currentQuestions = currentQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
     
     if (currentQuestions.length === 0) return alert("問題データが見つかりません。");
@@ -88,41 +85,59 @@ function showQuestion() {
     document.getElementById('current-num').innerText = `${currentQuestionIndex + 1} / ${currentQuestions.length}`;
     document.getElementById('question-text').innerText = q.q;
 
+    // 問題のタイプに合わせて出し分け
+    if (q.type === 'matching') {
+        renderMatching(q);
+    } else {
+        renderOptions(q);
+    }
+
     playSound('question');
     setTimeout(() => playSound('thinking'), 500);
-
-    if (q.type === 'matching') { renderMatching(q); } 
-    else { renderOptions(q); }
-    startTimer();
 }
 
+// 修正ポイント：関数を一つにまとめ、ネストを解消
 function renderOptions(q) {
     const container = document.getElementById('options-container');
     container.innerHTML = '';
     container.classList.remove('hidden');
 
+    // 1. 選択肢ボタンの生成
     q.a.forEach((text, index) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerText = text;
-        if (q.type === 'multiple') {
-            btn.onclick = () => btn.classList.toggle('selected');
-        } else {
-            btn.onclick = () => checkAnswer(index);
-        }
+        
+        btn.onclick = () => {
+            if (q.type === 'multiple') {
+                btn.classList.toggle('selected'); // 複数選択：琥珀色にハイライト
+            } else {
+                checkAnswer(index); // 単一選択：即座に判定
+            }
+        };
         container.appendChild(btn);
     });
 
+    // 2. 複数選択用「青い確定ボタン」
     if (q.type === 'multiple') {
         const submitBtn = document.createElement('button');
-        submitBtn.className = 'next-btn';
+        submitBtn.className = 'submit-btn'; 
         submitBtn.style.display = 'block';
         submitBtn.innerText = '回答を確定する';
+        
         submitBtn.onclick = () => {
-            const btns = document.querySelectorAll('.option-btn');
-            const selected = [];
-            btns.forEach((b, i) => { if(b.classList.contains('selected')) selected.push(i); });
-            const isCorrect = q.c.length === selected.length && q.c.every(v => selected.includes(v));
+            const btns = container.querySelectorAll('.option-btn');
+            const selectedIdx = [];
+            btns.forEach((b, i) => { 
+                if(b.classList.contains('selected')) selectedIdx.push(i); 
+            });
+            
+            if (selectedIdx.length === 0) return alert("選択肢を1つ以上選んでください。");
+
+            const isCorrect = q.c.length === selectedIdx.length && 
+                              q.c.every(v => selectedIdx.includes(v));
+            
+            submitBtn.style.display = 'none'; 
             finalizeQuestion(isCorrect, q);
         };
         container.appendChild(submitBtn);
@@ -239,24 +254,6 @@ function showFeedback(isCorrect, rationale) {
     resText.style.color = isCorrect ? '#4caf50' : '#ef5350';
     document.getElementById('rationale-text').innerText = rationale;
     document.getElementById('next-btn').style.display = 'block';
-}
-
-function startTimer() {
-    timeLeft = 100;
-    const bar = document.getElementById('timer-bar');
-    const q = currentQuestions[currentQuestionIndex];
-    timerInterval = setInterval(() => {
-        timeLeft -= 0.67; 
-        bar.style.width = timeLeft + '%';
-        if (timeLeft <= 0) { 
-            clearInterval(timerInterval); 
-            if (q.type === 'matching') {
-                showFeedback(false, `時間切れ！正解は：\n${q.pairs.map(p => p.left + "ー" + p.right).join(", ")}`);
-            } else {
-                checkAnswer(-1); 
-            }
-        }
-    }, 100);
 }
 
 function resetUI() {
