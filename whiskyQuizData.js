@@ -11,7 +11,7 @@ const whiskyQuizData = [
     r: "間違い。シングルモルトは「単一の蒸留所」のモルト原酒を混ぜたものです。一樽のみは「シングルカスク」です。"
   },
   {
-    id: "AP-CULT-TF-001",
+    id: "AP-INIT-TF-002",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -21,7 +21,7 @@ const whiskyQuizData = [
     r: "その独特の薬品のような香りのため,医療用として販売が許可されていました。"
   },
   {
-    id: "AP-CULT-TF-002",
+    id: "AP-INIT-TF-003",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -31,7 +31,7 @@ const whiskyQuizData = [
     r: "正しい。これがラテン語の「アクア・ヴィテ」に対応し,ウイスキーへと変化しました。"
   },
   {
-    id: "AP-CULT-TF-003",
+    id: "AP-INIT-TF-004",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -41,7 +41,7 @@ const whiskyQuizData = [
     r: "間違い。キルホーマン蒸留所など,内陸に位置する蒸留所も存在します。"
   },
   {
-    id: "AP-INIT-TF-002",
+    id: "AP-INIT-TF-005",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -51,7 +51,7 @@ const whiskyQuizData = [
     r: "熟成中に年間2〜3%程度が蒸発して減る分を,天使が飲んだとしてこう呼びます。"
   },
   {
-    id: "AP-INIT-TF-003",
+    id: "AP-INIT-TF-006",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -61,7 +61,7 @@ const whiskyQuizData = [
     r: "正解は×。最も若い原酒の年数です。"
   },
   {
-    id: "AP-INIT-TF-004",
+    id: "AP-INIT-TF-007",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -71,7 +71,7 @@ const whiskyQuizData = [
     r: "間違い。正解は「3年」以上です。"
   },
   {
-    id: "AP-INIT-TF-005",
+    id: "AP-INIT-TF-008",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -81,7 +81,7 @@ const whiskyQuizData = [
     r: "正しい。トウモロコシを51%以上使用することがアメリカの法律で定められています。"
   },
   {
-    id: "AP-INIT-TF-006",
+    id: "AP-INIT-TF-009",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -91,7 +91,7 @@ const whiskyQuizData = [
     r: "正しい。ピートを燃やした煙の香りが麦芽に移ることで,スモーキーな香りが生まれます。"
   },
   {
-    id: "AP-INIT-TF-007",
+    id: "AP-INIT-TF-010",
     level: "初級",
     type: "truefalse",
     points: 1,
@@ -101,7 +101,7 @@ const whiskyQuizData = [
     r: "間違い。ウイスキーは樽の中で熟成します。瓶詰め後は大きな変化は起こりません。"
   },
   {
-    id: "AP-INIT-TF-008",
+    id: "AP-INIT-TF-011",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -111,7 +111,7 @@ const whiskyQuizData = [
     r: "正解は〇。最も若い原酒の年数です。"
   },
   {
-    id: "AP-INIT-TF-009",
+    id: "AP-INIT-TF-012",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -121,7 +121,7 @@ const whiskyQuizData = [
     r: "正しい。正解は「3年」以上です。"
   },
   {
-    id: "AP-INIT-TF-010",
+    id: "AP-INIT-TF-013",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -131,7 +131,7 @@ const whiskyQuizData = [
     r: "銅との接触面積が広いため、硫黄成分（雑味）が効率よく除去され、軽やかでクリーンな原酒になります。"
   },
   {
-    id: "AP-INIT-TF-011",
+    id: "AP-INIT-TF-014",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -141,7 +141,7 @@ const whiskyQuizData = [
     r: "ほとんどが海沿いですが、「キルホーマン蒸留所」は島の内陸部、農場の中に位置しています。"
   },
   {
-    id: "AP-INIT-TF-012",
+    id: "AP-INIT-TF-015",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -151,7 +151,7 @@ const whiskyQuizData = [
     r: "熟成の最終段階で、別の酒類を貯蔵していた「別の樽」に移し替えて数ヶ月〜数年寝かせる手法です。"
   },
   {
-    id: "AP-INIT-TF-013",
+    id: "AP-INIT-TF-016",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -161,7 +161,7 @@ const whiskyQuizData = [
     r: "低温時に濁りが出るのを防ぎ、見た目をクリアにするための工程です。風味成分（油分）はむしろ減少します。"
   },
   {
-    id: "AP-INIT-TF-014",
+    id: "AP-INIT-TF-017",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -171,7 +171,7 @@ const whiskyQuizData = [
     r: "旨味成分を残すためにあえて行いません。そのため、加水や冷却で濁りが出やすくなります。"
   },
   {
-    id: "AP-INIT-TF-015",
+    id: "AP-INIT-TF-018",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -181,7 +181,7 @@ const whiskyQuizData = [
     r: "大量生産を目的とするため、アルコール度数を効率よく高められる連続式蒸留機を用いるのが一般的です。"
   },
   {
-    id: "AP-INIT-TF-016",
+    id: "AP-INIT-TF-019",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -191,7 +191,7 @@ const whiskyQuizData = [
     r: "植物（ヒースやコケ類）が堆積して不完全に炭化したもので、石炭（化石燃料）とは異なります。"
   },
   {
-    id: "AP-INIT-TF-017",
+    id: "AP-INIT-TF-020",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -201,7 +201,7 @@ const whiskyQuizData = [
     r: "複雑なパイプ回しを経て計算される、極めて珍しい「2.81回」という蒸留回数で知られています。"
   },
   {
-    id: "AP-INIT-TF-018",
+    id: "AP-INIT-TF-021",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -211,7 +211,7 @@ const whiskyQuizData = [
     r: "銅には触媒作用があり、不快な臭いを取り除く重要な役割があるため、銅製が絶対的な主流です。"
   },
   {
-    id: "AP-INIT-TF-019",
+    id: "AP-INIT-TF-022",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -221,7 +221,7 @@ const whiskyQuizData = [
     r: "樽の種類、サイズ、着色の有無により色は大きく変わるため、色と年数は必ずしも比例しません。"
   },
   {
-    id: "AP-INIT-TF-020",
+    id: "AP-INIT-TF-023",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -231,7 +231,7 @@ const whiskyQuizData = [
     r: "穀類と、糖化のための少量の麦芽を用い、単一の蒸留所で造られたグレーンウイスキーを指します。"
   },
   {
-    id: "AP-INIT-TF-021",
+    id: "AP-INIT-TF-024",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -241,7 +241,7 @@ const whiskyQuizData = [
     r: "同じ蒸留所の原酒であれば、複数の樽を混ぜてもシングルモルトと名乗れます。一樽のみは「シングルカスク」。"
   },
   {
-    id: "AP-INIT-TF-022",
+    id: "AP-INIT-TF-025",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -251,7 +251,7 @@ const whiskyQuizData = [
     r: "以前は「ヴァッテッドモルト」と呼ばれていました。グレーンウイスキーは一切含まれません。"
   },
   {
-    id: "AP-INIT-TF-023",
+    id: "AP-INIT-TF-026",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -261,7 +261,7 @@ const whiskyQuizData = [
     r: "ブレンドした原酒を再び樽等に戻し、一定期間「寝かせて馴染ませる」工程のことです。"
   },
   {
-    id: "AP-INIT-TF-024",
+    id: "AP-INIT-TF-027",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -271,7 +271,7 @@ const whiskyQuizData = [
     r: "基準により、海外原酒を含むものは「ワールドブレンデッド」等と表記し、区別されるようになりました。"
   },
   {
-    id: "AP-INIT-TF-025",
+    id: "AP-INIT-TF-028",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -281,7 +281,7 @@ const whiskyQuizData = [
     r: "「9.09%ルール」により、風味付けのためのワインや他スピリッツを少量添加することが認められています。"
   },
   {
-    id: "AP-INIT-TF-026",
+    id: "AP-INIT-TF-029",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -291,7 +291,7 @@ const whiskyQuizData = [
     r: "糖化、発酵、蒸留のすべての工程を日本国内の蒸留所で行うことが、表示のための必須条件です。"
   },
   {
-    id: "AP-INIT-TF-027",
+    id: "AP-INIT-TF-030",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -301,7 +301,7 @@ const whiskyQuizData = [
     r: "色のばらつきを調整する目的であれば、天然のカラメル（E150a）による着色が認められています。"
   },
   {
-    id: "AP-INIT-TF-028",
+    id: "AP-INIT-TF-031",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -311,7 +311,7 @@ const whiskyQuizData = [
     r: "原料の「51%以上」がトウモロコシであることが法律で厳格に定められています。"
   },
   {
-    id: "AP-INIT-TF-029",
+    id: "AP-INIT-TF-032",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -321,7 +321,7 @@ const whiskyQuizData = [
     r: "「内側を焦がした新品のオーク樽」の使用が必須条件です。中古樽での熟成はバーボンとは呼べません。"
   },
   {
-    id: "AP-INIT-TF-030",
+    id: "AP-INIT-TF-033",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -331,7 +331,7 @@ const whiskyQuizData = [
     r: "飲む際に少量の水を加えて香りを広げることは、推奨されている楽しみ方の一つです。"
   },
   {
-    id: "AP-INIT-TF-031",
+    id: "AP-INIT-TF-034",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -341,7 +341,7 @@ const whiskyQuizData = [
     r: "そのままの度数で瓶詰めされたものは「カスクストレングス」です。シングルバレルは「一つの樽」の意味です。"
   },
   {
-    id: "AP-INIT-TF-032",
+    id: "AP-INIT-TF-035",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -351,7 +351,7 @@ const whiskyQuizData = [
     r: "度数が高いため瓶内での変化はほとんどありません。冷暗所で立てて保存するのが基本です。"
   },
   {
-    id: "AP-INIT-TF-033",
+    id: "AP-INIT-TF-036",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -361,7 +361,7 @@ const whiskyQuizData = [
     r: "他社の原酒を混ぜることで、シングルモルトとして転売・流通「できない」ようにするための手法です。"
   },
   {
-    id: "AP-INIT-TF-034",
+    id: "AP-INIT-TF-037",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -371,7 +371,7 @@ const whiskyQuizData = [
     r: "樽での熟成中に、水分やアルコールが「蒸発」して中身が自然に減ることを指します。"
   },
   {
-    id: "AP-INIT-TF-035",
+    id: "AP-INIT-TF-038",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -381,7 +381,7 @@ const whiskyQuizData = [
     r: "40度以上のウイスキーはマイナス20度以下にならないと凍りません。冷凍庫ではトロリとした状態になります。"
   },
   {
-    id: "AP-INIT-TF-036",
+    id: "AP-INIT-TF-039",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -391,7 +391,7 @@ const whiskyQuizData = [
     r: "「ウシュク・ベーハー」は、ゲール語で「命の水（Water of Life）」を意味します。"
   },
   {
-    id: "AP-INIT-TF-037",
+    id: "AP-INIT-TF-040",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -401,7 +401,7 @@ const whiskyQuizData = [
     r: "スプリングバンク、グレンスコシア、グレンガイルの3箇所のみが、伝統の火を守り続けています。"
   },
   {
-    id: "AP-INIT-TF-038",
+    id: "AP-INIT-TF-041",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -411,7 +411,7 @@ const whiskyQuizData = [
     r: "その強い薬品臭から「医薬品」としての輸入が認められていた、有名なエピソードがあります。"
   },
   {
-    id: "AP-INIT-TF-039",
+    id: "AP-INIT-TF-042",
     level: "初級",
     type: "truefalse",
     points: 0,
@@ -681,7 +681,7 @@ const whiskyQuizData = [
     r: "正しい。銅には硫黄化合物を取り除き,香りをきれいにする効果があります。"
   },
   {
-    id: "AP-CULT-SING-030",
+    id: "AP-CULT-SING-001",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -691,7 +691,7 @@ const whiskyQuizData = [
     r: "正解はBaudoinia compniacensis。通称「ウイスキー菌」と呼ばれ、壁が黒くなる原因です。"
   },
   {
-    id: "AP-CULT-SING-031",
+    id: "AP-CULT-SING-002",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -701,7 +701,7 @@ const whiskyQuizData = [
     r: "パティソン社の破綻が連鎖倒産を招き、当時のスコッチ業界に大打撃を与えました。"
   },
   {
-    id: "AP-CULT-SING-032",
+    id: "AP-CULT-SING-003",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -711,7 +711,7 @@ const whiskyQuizData = [
     r: "初留液の一部を三度目の蒸留に直接回すという、非常に複雑なパイピング操作を指します。"
   },
   {
-    id: "AP-CULT-SING-033",
+    id: "AP-CULT-SING-004",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -721,7 +721,7 @@ const whiskyQuizData = [
     r: "通常、フェノール値（ppm）は「乾燥させた麦芽」の状態での数値を指します。"
   },
   {
-    id: "AP-CULT-SING-034",
+    id: "AP-CULT-SING-005",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -731,7 +731,7 @@ const whiskyQuizData = [
     r: "大阪の渡辺製作所が、竹鶴政孝の描いた図面を元に日本初の本格ポットスチルを製作しました。"
   },
   {
-    id: "AP-CULT-SING-035",
+    id: "AP-CULT-SING-006",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -741,7 +741,7 @@ const whiskyQuizData = [
     r: "乾燥させたガマ（リッド）を溝に挟み、水分で膨らませることで樽の漏れを防ぎます。"
   },
   {
-    id: "AP-CULT-SING-036",
+    id: "AP-CULT-SING-007",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -751,7 +751,7 @@ const whiskyQuizData = [
     r: "ディアジオ社が、約40年ぶりにこの伝説の蒸留所を再稼働させ、大きな話題となりました。"
   },
   {
-    id: "AP-CULT-SING-037",
+    id: "AP-CULT-SING-008",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -761,7 +761,7 @@ const whiskyQuizData = [
     r: "酢酸イソアミルは青りんごやバナナ、カプロン酸エチルは熟したリンゴのような香りを生みます。"
   },
   {
-    id: "AP-CULT-SING-040",
+    id: "AP-CULT-SING-009",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -771,7 +771,7 @@ const whiskyQuizData = [
     r: "ブルイックラディ蒸留所がリリースする「オクトモア」は、世界で最もピーティーなウイスキーとして知られます。"
   },
   {
-    id: "AP-CULT-SING-041",
+    id: "AP-CULT-SING-010",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -781,7 +781,7 @@ const whiskyQuizData = [
     r: "アンドリュー・アッシャーによって現在のブレンデッドの原型が作られ、世界中に広まるきっかけとなりました。"
   },
   {
-    id: "AP-CULT-SING-050",
+    id: "AP-CULT-SING-011",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -791,7 +791,7 @@ const whiskyQuizData = [
     r: "ボウモアは、アイラ島で唯一自社内で樽のメンテナンスを行う製樽所を維持しています。"
   },
   {
-    id: "AP-CULT-SING-051",
+    id: "AP-CULT-SING-012",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -801,7 +801,7 @@ const whiskyQuizData = [
     r: "リフラックス（還流）が多いほど、原酒はより軽やかでクリーンな性格になります。"
   },
   {
-    id: "AP-CULT-SING-052",
+    id: "AP-CULT-SING-013",
     level: "カルト級",
     type: "single",
     points: 0,
@@ -809,6 +809,76 @@ const whiskyQuizData = [
     a: ["バーンサイド", "ワードヘッド", "ティースプーン", "アルドリッジ"],
     c: 1,
     r: "正解はワードヘッド。バーンサイドは、バルヴェニーにグレンフィディックを混ぜたものを指します。"
+  },
+  {
+    id: "AP-CULT-SING-014",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "1918年に竹鶴政孝がスコットランドへ渡る際、彼を送り出した摂津酒造の社長であり、後に「岩井トラディション」に名を残す人物は？",
+    a: ["岩井喜一郎", "阿部喜兵衛", "梶原茂", "柳沢保恵"],
+    c: 0,
+    r: "岩井喜一郎は竹鶴の上司であり、後に「竹鶴ノート」を元にマルスウイスキーの基礎を築きました。"
+  },
+  {
+    id: "AP-CULT-SING-015",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "山崎蒸溜所の建設地として、竹鶴は北海道を推薦しましたが、鳥井が大阪の山崎を強硬に主張した「最大の理由」は？",
+    a: ["水が良かったから", "輸送コストと消費地に近いから", "気候がスコットランドに似ていたから", "土地が安かったから"],
+    c: 1,
+    r: "鳥井は「商売」の視点から、工場見学のしやすさと大消費地への輸送効率を重視しました。"
+  },
+  {
+    id: "AP-CULT-SING-016",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "1929年に発売された日本初の本格ウイスキー「サントリーウイスキー白札」。当時のキャッチコピー「醒めよ人……」に続く言葉は？",
+    a: ["「……東洋の酒あり」", "「……これぞ命の水」", "「……琥珀の輝き」", "「……舶来を誇るなかれ」"],
+    c: 3,
+    r: "「醒めよ人！ 舶来盲信の時代は去れり」という、鳥井の強い自信と愛国心が込められたコピーでした。"
+  },
+  {
+    id: "AP-CULT-SING-017",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "竹鶴政孝がニッカウヰスキーの前身「大日本果汁」を設立した際、ウイスキーが熟成するまでの収益源として販売していたものは？",
+    a: ["ブドウジュース", "リンゴジュース", "サイダー", "ジャム"],
+    c: 1,
+    r: "熟成に時間がかかるウイスキーを待つ間、余市特産のリンゴを使ったジュースを販売していました。"
+  },
+  {
+    id: "AP-CULT-SING-018",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "竹鶴政孝がスコットランドから持ち帰った、ウイスキー製造の全てが記された通称「竹鶴ノート」。このノートの冒頭に記された日付は？",
+    a: ["1918年1月1日", "1920年11月10日", "1923年4月1日", "1934年7月2日"],
+    c: 1,
+    r: "1920年11月10日。竹鶴はこのノート一冊に、日本のウイスキーの未来を詰め込んで帰国しました。"
+  },
+  {
+    id: "AP-CULT-SING-019",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "ニッカウヰスキー余市蒸溜所で現在も行われている、石炭をくべて火力を調整する「石炭直火蒸留」。竹鶴がこれにこだわった理由はどこの蒸留所の影響か？",
+    a: ["ロングモーン", "マッカラン", "ラフロイグ", "ボウモア"],
+    c: 0,
+    r: "実習先だったロングモーン蒸留所の伝統技法を忠実に再現し、力強い原酒を求めました。"
+  },
+  {
+    id: "AP-CULT-SING-020",
+    level: "カルト級",
+    type: "single",
+    points: 0,
+    q: "1940年に発売された「第1号ニッカウヰスキー」。このボトルのラベルに描かれていた、ニッカの象徴でもある動物は？",
+    a: ["羆（ヒグマ）", "鹿", "鷲", "二人の王様"],
+    c: 0,
+    r: "当初は「羆」が描かれたラベルが存在しました。現在のキング・オブ・ブレンダーズは後年の採用です。"
   },
   {
     id: "AP-INIT-SING-001",
@@ -1621,7 +1691,7 @@ const whiskyQuizData = [
     r: "水,空気,麦芽（Water, Air, Malted Barley）という,ウイスキー造りの根源をデザインしたものです。"
   },
   {
-    id: "AP-CULT-SING-001",
+    id: "AP-MID-SING-001",
     level: "中級",
     type: "single",
     points: 10,
@@ -1631,7 +1701,7 @@ const whiskyQuizData = [
     r: "1トンの麦芽から約400L〜415L（LPA）のアルコールを抽出するのが標準的な指標です。"
   },
   {
-    id: "AP-CULT-SING-002",
+    id: "AP-MID-SING-002",
     level: "中級",
     type: "single",
     points: 10,
@@ -1641,7 +1711,7 @@ const whiskyQuizData = [
     r: "あの独特の香りが「薬」として説得力があったため,例外的に許可されました。"
   },
   {
-    id: "AP-CULT-SING-003",
+    id: "AP-MID-SING-003",
     level: "中級",
     type: "single",
     points: 10,
@@ -1651,7 +1721,7 @@ const whiskyQuizData = [
     r: "当時の日本人には本格的なピーティーな香りが馴染まず「煙臭い」と不評でした。この失敗が,後に日本人に合う「角瓶」の誕生に繋がります。"
   },
   {
-    id: "AP-CULT-SING-004",
+    id: "AP-MID-SING-004",
     level: "中級",
     type: "single",
     points: 10,
@@ -1661,7 +1731,7 @@ const whiskyQuizData = [
     r: "「竹鶴ノート」と呼ばれます。万年筆で詳細に描かれた蒸留器の図解や製造工程は,後に日本のウイスキー産業を支えるバイブルとなりました。"
   },
   {
-    id: "AP-CULT-SING-005",
+    id: "AP-MID-SING-005",
     level: "中級",
     type: "single",
     points: 10,
@@ -1671,7 +1741,7 @@ const whiskyQuizData = [
     r: "正確には28,899匹。グレンタレット蒸留所の大麦を守り続けた英雄です。"
   },
   {
-    id: "AP-CULT-SING-006",
+    id: "AP-MID-SING-006",
     level: "中級",
     type: "single",
     points: 10,
@@ -1681,7 +1751,7 @@ const whiskyQuizData = [
     r: "容量311Lで通常ボトルの約444本分に相当。中身はマッカラン32年です。"
   },
   {
-    id: "AP-CULT-SING-007",
+    id: "AP-MID-SING-007",
     level: "中級",
     type: "single",
     points: 10,
@@ -1691,7 +1761,7 @@ const whiskyQuizData = [
     r: "パティソン社の破綻が連鎖倒産を招き,当時のスコッチ業界に大打撃を与えました。"
   },
   {
-    id: "AP-CULT-SING-008",
+    id: "AP-MID-SING-008",
     level: "中級",
     type: "single",
     points: 10,
@@ -1701,7 +1771,7 @@ const whiskyQuizData = [
     r: "正解はタウザー。その功績を称えられ,没後には蒸留所内に実物大の銅像が建てられました。"
   },
   {
-    id: "AP-CULT-SING-009",
+    id: "AP-MID-SING-009",
     level: "中級",
     type: "single",
     points: 10,
@@ -1711,7 +1781,7 @@ const whiskyQuizData = [
     r: "正解はグレンタレット蒸留所。タウザーの誕生日は5月21日で,現在は後継の猫たちが活躍しています。"
   },
   {
-    id: "AP-CULT-SING-010",
+    id: "AP-MID-SING-010",
     level: "中級",
     type: "single",
     points: 10,
@@ -1721,7 +1791,7 @@ const whiskyQuizData = [
     r: "正解は約4億円（218万7500ポンド）。「ウイスキーの聖杯」と呼ばれ,世界で最も高価なウイスキーとしてギネス級の記録を更新し続けています。"
   },
   {
-    id: "AP-CULT-SING-011",
+    id: "AP-MID-SING-011",
     level: "中級",
     type: "single",
     points: 10,
@@ -1731,7 +1801,7 @@ const whiskyQuizData = [
     r: "正解は古代ピクト人の彫刻。この石に刻まれた繊細な模様が,グレンモーレンジィの「複雑で華やかな味わい」を象徴するデザインとして採用されました。"
   },
   {
-    id: "AP-CULT-SING-012",
+    id: "AP-MID-SING-012",
     level: "中級",
     type: "single",
     points: 10,
@@ -1741,7 +1811,7 @@ const whiskyQuizData = [
     r: "沖縄県の「新里酒造」や「ヘリオス酒造」などが,日本で最も南に位置するウイスキー蒸留所となります。"
   },
   {
-    id: "AP-CULT-SING-013",
+    id: "AP-MID-SING-013",
     level: "中級",
     type: "single",
     points: 10,
@@ -1751,7 +1821,7 @@ const whiskyQuizData = [
     r: "正解は3つ。ネックの形状や傾斜が異なる3基の蒸留器を使い分けることで,より繊細で多様な原酒の作り分けを可能にしています。"
   },
   {
-    id: "AP-CULT-SING-014",
+    id: "AP-MID-SING-014",
     level: "中級",
     type: "single",
     points: 10,
@@ -1761,7 +1831,7 @@ const whiskyQuizData = [
     r: "正解はZEMON（ゼモン）。世界初の鋳造製スチルで,パーツの交換が容易かつ,肉厚な構造により独特な酒質を生み出しています。"
   },
   {
-    id: "AP-CULT-SING-015",
+    id: "AP-MID-SING-015",
     level: "中級",
     type: "single",
     points: 10,
@@ -1771,7 +1841,7 @@ const whiskyQuizData = [
     r: "正解はアランビック。非常に小型のスチルで,ヘッドの部分に特徴的な膨らみがあり,そこから驚くほどフルーティーな原酒が生まれます。"
   },
   {
-    id: "AP-CULT-SING-016",
+    id: "AP-MID-SING-016",
     level: "中級",
     type: "single",
     points: 10,
@@ -1781,7 +1851,7 @@ const whiskyQuizData = [
     r: "当時の4000円は,現在の価値で数千万円に相当する破格の待遇。鳥井の本気度が伺えるエピソードです。"
   },
   {
-    id: "AP-CULT-SING-017",
+    id: "AP-MID-SING-017",
     level: "中級",
     type: "single",
     points: 10,
@@ -1791,7 +1861,7 @@ const whiskyQuizData = [
     r: "前回の蒸留で残った液体（バックセット）を次の発酵に加えることで,品質を安定させる手法です。"
   },
   {
-    id: "AP-CULT-SING-018",
+    id: "AP-MID-SING-018",
     level: "中級",
     type: "single",
     points: 10,
@@ -1801,7 +1871,7 @@ const whiskyQuizData = [
     r: "「ローモンド・スチル」と呼ばれる特殊な形状の蒸留器を使い,多様な個性の原酒を造り分けています。"
   },
   {
-    id: "AP-CULT-SING-019",
+    id: "AP-MID-SING-019",
     level: "中級",
     type: "single",
     points: 10,
@@ -1811,7 +1881,7 @@ const whiskyQuizData = [
     r: "「王立委員会（Royal Commission）」が,モルトとグレーンの両方をウイスキーと認めたことで現在の定義が確立しました。"
   },
   {
-    id: "AP-CULT-SING-020",
+    id: "AP-MID-SING-020",
     level: "中級",
     type: "single",
     points: 10,
@@ -1821,7 +1891,7 @@ const whiskyQuizData = [
     r: "コフィーが改良した「コフィー蒸留器」により,グレーンウイスキーの大量生産が可能になりました。"
   },
   {
-    id: "AP-MID-SING-001",
+    id: "AP-MID-SING-021",
     level: "中級",
     type: "single",
     points: 10,
@@ -1831,7 +1901,7 @@ const whiskyQuizData = [
     r: "ザ・マッカランなど,バランスの良い優雅な銘柄が多いです。"
   },
   {
-    id: "AP-MID-SING-002",
+    id: "AP-MID-SING-022",
     level: "中級",
     type: "single",
     points: 10,
@@ -1841,7 +1911,7 @@ const whiskyQuizData = [
     r: "オリエンタルな香りは世界的に高く評価されています。"
   },
   {
-    id: "AP-MID-SING-003",
+    id: "AP-MID-SING-023",
     level: "中級",
     type: "single",
     points: 10,
@@ -1851,7 +1921,7 @@ const whiskyQuizData = [
     r: "発芽した大麦は麦芽（モルト）と呼ばれ,糖化に必要な酵素を含みます。"
   },
   {
-    id: "AP-MID-SING-004",
+    id: "AP-MID-SING-024",
     level: "中級",
     type: "single",
     points: 10,
@@ -1861,7 +1931,7 @@ const whiskyQuizData = [
     r: "伝統的なモルトウイスキー造りにはポットスチル（単式蒸留器）が使われます。"
   },
   {
-    id: "AP-MID-SING-005",
+    id: "AP-MID-SING-025",
     level: "中級",
     type: "single",
     points: 10,
@@ -1871,7 +1941,7 @@ const whiskyQuizData = [
     r: "未発芽の大麦と麦芽を原料とし,ポットスチルで蒸留するアイルランド特有の製法です。"
   },
   {
-    id: "AP-MID-SING-006",
+    id: "AP-MID-SING-026",
     level: "中級",
     type: "single",
     points: 10,
@@ -1881,7 +1951,7 @@ const whiskyQuizData = [
     r: "シェリー酒の成分が樽に染み込んでいるため,濃厚な甘みや色がつきやすくなります。"
   },
   {
-    id: "AP-MID-SING-007",
+    id: "AP-MID-SING-027",
     level: "中級",
     type: "single",
     points: 10,
@@ -1891,7 +1961,7 @@ const whiskyQuizData = [
     r: "糖化酵素を補うために,少量の麦芽（モルト）を加えて製造されます。"
   },
   {
-    id: "AP-MID-SING-008",
+    id: "AP-MID-SING-028",
     level: "中級",
     type: "single",
     points: 10,
@@ -1901,7 +1971,7 @@ const whiskyQuizData = [
     r: "別の種類の樽（シェリー樽やワイン樽など）に移して数ヶ月追熟させる手法です。"
   },
   {
-    id: "AP-MID-SING-009",
+    id: "AP-MID-SING-029",
     level: "中級",
     type: "single",
     points: 10,
@@ -1911,7 +1981,7 @@ const whiskyQuizData = [
     r: "法律により,ブレンドされた中で最も若い原酒の年数を表示する義務があります。"
   },
   {
-    id: "AP-MID-SING-010",
+    id: "AP-MID-SING-030",
     level: "中級",
     type: "single",
     points: 10,
@@ -1921,7 +1991,7 @@ const whiskyQuizData = [
     r: "シェリー酒の成分が,濃厚な甘みや赤みを帯びた色,スパイス感をもたらします。"
   },
   {
-    id: "AP-MID-SING-011",
+    id: "AP-MID-SING-031",
     level: "中級",
     type: "single",
     points: 10,
@@ -1931,7 +2001,7 @@ const whiskyQuizData = [
     r: "法律で40%以上と定められています。これ未満だとウイスキーとは呼べません。"
   },
   {
-    id: "AP-MID-SING-012",
+    id: "AP-MID-SING-032",
     level: "中級",
     type: "single",
     points: 10,
@@ -1941,7 +2011,7 @@ const whiskyQuizData = [
     r: "銅には蒸留中に発生する不快な硫黄化合物と反応し,それらを取り除く触媒作用があります。"
   },
   {
-    id: "AP-MID-SING-013",
+    id: "AP-MID-SING-033",
     level: "中級",
     type: "single",
     points: 10,
@@ -1951,7 +2021,7 @@ const whiskyQuizData = [
     r: "ケンタッキーは夏場の気温が高く乾燥しているため,蒸発（熟成）のスピードがスコットランドより遥かに早いです。"
   },
   {
-    id: "AP-MID-SING-014",
+    id: "AP-MID-SING-034",
     level: "中級",
     type: "single",
     points: 10,
@@ -1961,7 +2031,7 @@ const whiskyQuizData = [
     r: "アメリカの法律で,トウモロコシを51%以上使用することが定められています。"
   },
   {
-    id: "AP-MID-SING-015",
+    id: "AP-MID-SING-035",
     level: "中級",
     type: "single",
     points: 10,
@@ -1971,7 +2041,7 @@ const whiskyQuizData = [
     r: "膨らみの中で蒸気が冷却・液化して戻ることで,原酒がより洗練された味わいになります。"
   },
   {
-    id: "AP-MID-SING-016",
+    id: "AP-MID-SING-036",
     level: "中級",
     type: "single",
     points: 10,
@@ -1981,7 +2051,7 @@ const whiskyQuizData = [
     r: "連続式蒸留器はグレーンウイスキーの製造に使われ,クリアなアルコールを大量生産するのに適しています。"
   },
   {
-    id: "AP-MID-SING-017",
+    id: "AP-MID-SING-037",
     level: "中級",
     type: "single",
     points: 10,
@@ -1991,7 +2061,7 @@ const whiskyQuizData = [
     r: "手作業で重い麦を裏返す作業（フロアモルティング）を続けた職人の肩が,猿のように下がって見えたことに敬意を表した名前です。"
   },
   {
-    id: "AP-MID-SING-018",
+    id: "AP-MID-SING-038",
     level: "中級",
     type: "single",
     points: 10,
@@ -2001,7 +2071,7 @@ const whiskyQuizData = [
     r: "「ドッグ（Dog）」と呼ばれます。これをズボンの脚の中に隠して持ち出し,隠れて飲んでいたというユニークな歴史があります。"
   },
   {
-    id: "AP-MID-SING-019",
+    id: "AP-MID-SING-039",
     level: "中級",
     type: "single",
     points: 10,
@@ -2011,7 +2081,7 @@ const whiskyQuizData = [
     r: "1895年当時,四角いボトルは輸送時に安定し,スペースを無駄にしないという画期的なアイデアとして採用されました。"
   },
   {
-    id: "AP-MID-SING-020",
+    id: "AP-MID-SING-040",
     level: "中級",
     type: "single",
     points: 10,
@@ -2021,7 +2091,7 @@ const whiskyQuizData = [
     r: "山崎は桂川・宇治川・木津川が合流する場所で,良質な地下水と,熟成に適した湿潤な霧が発生する気候が決め手となりました。"
   },
   {
-    id: "AP-MID-SING-021",
+    id: "AP-MID-SING-041",
     level: "中級",
     type: "single",
     points: 10,
@@ -2031,7 +2101,7 @@ const whiskyQuizData = [
     r: "スコットランドで学んだ竹鶴は,本場の環境に近い場所を求めて北の地・余市に辿り着きました。"
   },
   {
-    id: "AP-MID-SING-022",
+    id: "AP-MID-SING-042",
     level: "中級",
     type: "single",
     points: 10,
@@ -2041,7 +2111,7 @@ const whiskyQuizData = [
     r: "「命の水」を意味するラテン語「アクア・ヴィテ」のゲール語訳が語源です。"
   },
   {
-    id: "AP-MID-SING-023",
+    id: "AP-MID-SING-043",
     level: "中級",
     type: "single",
     points: 10,
@@ -2051,7 +2121,7 @@ const whiskyQuizData = [
     r: "銅には蒸留中に発生する不快な硫黄化合物と反応し,取り除く触媒作用があります。"
   },
   {
-    id: "AP-MID-SING-024",
+    id: "AP-MID-SING-044",
     level: "中級",
     type: "single",
     points: 10,
@@ -2061,7 +2131,7 @@ const whiskyQuizData = [
     r: "1895年当時,四角いボトルは輸送時に安定し,スペースを無駄にしないため採用されました。"
   },
   {
-    id: "AP-MID-SING-025",
+    id: "AP-MID-SING-045",
     level: "中級",
     type: "single",
     points: 10,
@@ -2071,7 +2141,7 @@ const whiskyQuizData = [
     r: "ラインアームの角度（上向き・下向き）によって,原酒の軽重が変化します。"
   },
   {
-    id: "AP-MID-SING-026",
+    id: "AP-MID-SING-046",
     level: "中級",
     type: "single",
     points: 10,
@@ -2081,7 +2151,7 @@ const whiskyQuizData = [
     r: "正解はアレクサンダー3世。マッケンジー家が狩猟中の国王を救ったことから「十二枝の角を持つ雄鹿」の紋章の使用を許されました。"
   },
   {
-    id: "AP-MID-SING-027",
+    id: "AP-MID-SING-047",
     level: "中級",
     type: "single",
     points: 10,
@@ -2091,7 +2161,7 @@ const whiskyQuizData = [
     r: "正解は雷鳥。スコットランドの国鳥でもあり,当初は単に「グラウス」という名前でしたが,人気が出すぎて「あの有名な（フェイマス）雷鳥」と呼ばれるようになりました。"
   },
   {
-    id: "AP-MID-SING-028",
+    id: "AP-MID-SING-048",
     level: "中級",
     type: "single",
     points: 10,
@@ -2101,7 +2171,7 @@ const whiskyQuizData = [
     r: "正解はヤマネコ（ワイルドキャット）。蒸留所内にはヤマネコのレリーフもあり,このヤマネコは隣接するブローラ蒸留所の象徴でもありました。"
   },
   {
-    id: "AP-MID-SING-029",
+    id: "AP-MID-SING-049",
     level: "中級",
     type: "single",
     points: 10,
@@ -2111,7 +2181,7 @@ const whiskyQuizData = [
     r: "正解はアニマルフレーバー（またはアニマリック）。18年以上の長期熟成により,植物的な香りから動物的な重厚感へと変化することがあります。"
   },
   {
-    id: "AP-MID-SING-030",
+    id: "AP-MID-SING-050",
     level: "中級",
     type: "single",
     points: 10,
@@ -2121,7 +2191,7 @@ const whiskyQuizData = [
     r: "正解は響17年。「サントリータイム」というセリフと共に,世界中にジャパニーズウイスキーの存在を知らしめる象徴的なシーンとなりました。"
   },
   {
-    id: "AP-MID-SING-031",
+    id: "AP-MID-SING-051",
     level: "中級",
     type: "single",
     points: 10,
@@ -2131,7 +2201,7 @@ const whiskyQuizData = [
     r: "正解は穀物。大麦やトウモロコシなどを原料とするのがウイスキーで,ブドウなどの果実を原料として蒸留するのがブランデーです。"
   },
   {
-    id: "AP-MID-SING-032",
+    id: "AP-MID-SING-052",
     level: "中級",
     type: "single",
     points: 10,
@@ -2141,7 +2211,7 @@ const whiskyQuizData = [
     r: "正解はポリフェノール。両者に含まれるポリフェノールが似た構造を持っているため,一緒に口にすると味わいの相乗効果が生まれます。"
   },
   {
-    id: "AP-MID-SING-033",
+    id: "AP-MID-SING-053",
     level: "中級",
     type: "single",
     points: 10,
@@ -2151,7 +2221,7 @@ const whiskyQuizData = [
     r: "正解はブドウ由来の風味。シェリー酒（強化ワイン）が染み込んだ樽で熟成させることで,ベリーやドライフルーツのような芳醇な香りが生まれます。"
   },
   {
-    id: "AP-MID-SING-034",
+    id: "AP-MID-SING-054",
     level: "中級",
     type: "single",
     points: 10,
@@ -2161,7 +2231,7 @@ const whiskyQuizData = [
     r: "正解はグレンモーレンジィ・シグネット。高温で焙煎した「チョコレートモルト」を使用しており,コーヒー好きのお客様への最初の一杯に最適です。"
   },
   {
-    id: "AP-MID-SING-035",
+    id: "AP-MID-SING-055",
     level: "中級",
     type: "single",
     points: 10,
@@ -2171,7 +2241,7 @@ const whiskyQuizData = [
     r: "正解は約50%以下。30年も経つと半分近くが蒸発してしまいます。その分,残った液体は極めて濃厚で希少なため,高価になるという「理由」が伝わります。"
   },
   {
-    id: "AP-MID-SING-036",
+    id: "AP-MID-SING-056",
     level: "中級",
     type: "single",
     points: 10,
@@ -2181,7 +2251,7 @@ const whiskyQuizData = [
     r: "正解は植物。数千年前のヒースや苔が堆積したもので,これを燃やして麦芽を乾燥させることで,野性的でスモーキーな香りが付きます。"
   },
   {
-    id: "AP-MID-SING-037",
+    id: "AP-MID-SING-057",
     level: "中級",
     type: "single",
     points: 10,
@@ -2191,7 +2261,7 @@ const whiskyQuizData = [
     r: "正解は香りの油分。皮の外側にある「油胞」に香りのエッセンスが詰まっており,それを弾けさせることで,最初の一口の香りが劇的に良くなります。"
   },
   {
-    id: "AP-MID-SING-038",
+    id: "AP-MID-SING-058",
     level: "中級",
     type: "single",
     points: 10,
@@ -2201,7 +2271,7 @@ const whiskyQuizData = [
     r: "正解は悪魔の取り分。樽に染み込んだこの成分を特殊な技術で抽出した「デビルズ・カット」という製品（ジムビーム社など）も存在します。"
   },
   {
-    id: "AP-MID-SING-039",
+    id: "AP-MID-SING-059",
     level: "中級",
     type: "single",
     points: 10,
@@ -2211,7 +2281,7 @@ const whiskyQuizData = [
     r: "正解は樽。盾の中に大麦,水,ポットスチル,樽の4つが描かれており,これぞウイスキーの構成要素であることを誇らしげに示しています。"
   },
   {
-    id: "AP-MID-SING-040",
+    id: "AP-MID-SING-060",
     level: "中級",
     type: "single",
     points: 10,
@@ -2221,7 +2291,7 @@ const whiskyQuizData = [
     r: "正解は「決して倒れない」という不倒の精神。明治時代の岩倉使節団が日本に持ち帰り,吉田茂や田中角栄など多くの政治家に愛された「縁起物」としての側面もあります。"
   },
   {
-    id: "AP-MID-SING-041",
+    id: "AP-MID-SING-061",
     level: "中級",
     type: "single",
     points: 10,
@@ -2231,7 +2301,7 @@ const whiskyQuizData = [
     r: "正解は工事を中断して保護したから。1994年の建設時,つがいのイヌワシが建設地に巣を作ったため,雛が旅立つまで工事を数ヶ月止めたという心温まる歴史が刻まれています。"
   },
   {
-    id: "AP-MID-SING-042",
+    id: "AP-MID-SING-062",
     level: "中級",
     type: "single",
     points: 10,
@@ -2241,7 +2311,7 @@ const whiskyQuizData = [
     r: "正解は二つの原酒の結合。異なる原酒を混ぜた後,再び樽で寝かせる「ダブルマリッジ（後熟）」の手間を惜しまない姿勢を,2頭のライオンで表現しています。"
   },
   {
-    id: "AP-MID-SING-043",
+    id: "AP-MID-SING-063",
     level: "中級",
     type: "single",
     points: 10,
@@ -2251,7 +2321,7 @@ const whiskyQuizData = [
     r: "山梨県の「サントリー白州蒸溜所」です。約82万平方メートルという世界最大級の広さを誇ります。"
   },
   {
-    id: "AP-MID-SING-044",
+    id: "AP-MID-SING-064",
     level: "中級",
     type: "single",
     points: 10,
@@ -2261,7 +2331,7 @@ const whiskyQuizData = [
     r: "正解は地元産の原料。最近では「地元産の麦」や,中には「米」を原料に含むなど,その土地の農業と結びついた造りが盛んです。"
   },
   {
-    id: "AP-MID-SING-045",
+    id: "AP-MID-SING-065",
     level: "中級",
     type: "single",
     points: 10,
@@ -2271,7 +2341,7 @@ const whiskyQuizData = [
     r: "正解はリンゴジュース。ウイスキーは熟成に時間がかかるため,当初は余市特産のリンゴを使ったジュースを売って会社を支えていました。"
   },
   {
-    id: "AP-MID-SING-046",
+    id: "AP-MID-SING-066",
     level: "中級",
     type: "single",
     points: 10,
@@ -2281,7 +2351,7 @@ const whiskyQuizData = [
     r: "正解は薩摩切子。日本独自のウイスキーであることを誇示するため,ボトルデザインにも日本の伝統美を取り入れたのが始まりです。"
   },
   {
-    id: "AP-MID-SING-047",
+    id: "AP-MID-SING-067",
     level: "中級",
     type: "single",
     points: 10,
@@ -2291,7 +2361,7 @@ const whiskyQuizData = [
     r: "複数の蒸留所のモルト原酒を混ぜたものを指します。かつてはバッテッド（Vatted）と呼ばれていました。"
   },
   {
-    id: "AP-MID-SING-048",
+    id: "AP-MID-SING-068",
     level: "中級",
     type: "single",
     points: 10,
@@ -2301,7 +2371,7 @@ const whiskyQuizData = [
     r: "ヨーロピアンオークはタンニンやポリフェノールが豊富で,よりスパイシーで重厚な風味を与えます。"
   },
   {
-    id: "AP-MID-SING-049",
+    id: "AP-MID-SING-069",
     level: "中級",
     type: "single",
     points: 10,
@@ -2311,7 +2381,7 @@ const whiskyQuizData = [
     r: "熱を均一に伝え,温度を正確に制御できるため,クリアで安定した品質の原酒が造れます。"
   },
   {
-    id: "AP-MID-SING-050",
+    id: "AP-MID-SING-070",
     level: "中級",
     type: "single",
     points: 10,
@@ -2321,7 +2391,7 @@ const whiskyQuizData = [
     r: "特定の熟成年数にこだわらず,そのブランドの味を維持するために複数の年数を混ぜた製品です。"
   },
   {
-    id: "AP-MID-SING-051",
+    id: "AP-MID-SING-071",
     level: "中級",
     type: "single",
     points: 10,
@@ -2331,7 +2401,7 @@ const whiskyQuizData = [
     r: "ジンはジュニパーベリーなどのボタニカルを加えますが,ウイスキーは原料と樽の香りのみで勝負します。"
   },
   {
-    id: "AP-MID-SING-052",
+    id: "AP-MID-SING-072",
     level: "中級",
     type: "single",
     points: 10,
@@ -2341,7 +2411,7 @@ const whiskyQuizData = [
     r: "数百〜数千ある樽の中から,特に出来の良い数十樽ほどを選んで瓶詰めした贅沢な製品です。"
   },
   {
-    id: "AP-MID-SING-053",
+    id: "AP-MID-SING-073",
     level: "中級",
     type: "single",
     points: 10,
@@ -2351,7 +2421,7 @@ const whiskyQuizData = [
     r: "供給不足だったため,少量の本物を薄めて水増ししたものが蔓延していました。"
   },
   {
-    id: "AP-MID-SING-054",
+    id: "AP-MID-SING-074",
     level: "中級",
     type: "single",
     points: 10,
@@ -2361,7 +2431,7 @@ const whiskyQuizData = [
     r: "薩摩切子のカットをイメージしたデザインで,日本独自の伝統と高級感を表現しています。"
   },
   {
-    id: "AP-MID-SING-055",
+    id: "AP-MID-SING-075",
     level: "中級",
     type: "single",
     points: 10,
@@ -2371,7 +2441,7 @@ const whiskyQuizData = [
     r: "温度変化と加水効果により,ストレートでは強すぎた香りが優しく開いていく過程を楽しめます。"
   },
   {
-    id: "AP-MID-SING-056",
+    id: "AP-MID-SING-076",
     level: "中級",
     type: "single",
     points: 10,
@@ -2381,7 +2451,7 @@ const whiskyQuizData = [
     r: "樽の両端にある平らな板のことです。ここだけ別の木材（ミズナラ等）を使うこともあります。"
   },
   {
-    id: "AP-MID-SING-057",
+    id: "AP-MID-SING-077",
     level: "中級",
     type: "single",
     points: 10,
@@ -2391,7 +2461,7 @@ const whiskyQuizData = [
     r: "ウイスキー1に対し,常温の水を1加えます。香りが最も開きやすいプロのテイスティング法です。"
   },
   {
-    id: "AP-MID-SING-058",
+    id: "AP-MID-SING-078",
     level: "中級",
     type: "single",
     points: 10,
@@ -2401,7 +2471,7 @@ const whiskyQuizData = [
     r: "蒸留直後は無色透明ですが,木樽の中で数年寝ることで,木材の成分と色が溶け出し琥珀色になります。"
   },
   {
-    id: "AP-CULT-SING-021",
+    id: "AP-MID-SING-079",
     level: "中級",
     type: "single",
     points: 1,
@@ -2411,7 +2481,7 @@ const whiskyQuizData = [
     r: "過剰宣伝による倒産連鎖事件です。"
   },
   {
-    id: "AP-CULT-SING-022",
+    id: "AP-MID-SING-080",
     level: "中級",
     type: "single",
     points: 1,
@@ -2421,7 +2491,7 @@ const whiskyQuizData = [
     r: "ジョージ・スミスが創業したザ・グレンリベットが公認第1号となりました。"
   },
   {
-    id: "AP-CULT-SING-023",
+    id: "AP-MID-SING-081",
     level: "中級",
     type: "single",
     points: 1,
@@ -2431,7 +2501,7 @@ const whiskyQuizData = [
     r: "冷却濾過をしないことで,ウイスキー本来の油分や風味を損なわず保持できます。"
   },
   {
-    id: "AP-CULT-SING-024",
+    id: "AP-MID-SING-082",
     level: "中級",
     type: "single",
     points: 1,
@@ -2441,7 +2511,7 @@ const whiskyQuizData = [
     r: "竹鶴政孝はグラスゴー大学で応用化学を学び,現地の蒸留所で実習を行いました。"
   },
   {
-    id: "AP-CULT-SING-025",
+    id: "AP-MID-SING-083",
     level: "中級",
     type: "single",
     points: 1,
@@ -2451,7 +2521,7 @@ const whiskyQuizData = [
     r: "初留・再留・三留の工程を特殊に組み合わせた「2.5回蒸留」という独自の製法です。"
   },
   {
-    id: "AP-CULT-SING-026",
+    id: "AP-MID-SING-084",
     level: "中級",
     type: "single",
     points: 1,
@@ -2461,7 +2531,7 @@ const whiskyQuizData = [
     r: "SWA（スコッチ・ウイスキー協会）により,現在は伝統的な手法以外での使用は禁止されています。"
   },
   {
-    id: "AP-CULT-SING-027",
+    id: "AP-MID-SING-085",
     level: "中級",
     type: "single",
     points: 1,
@@ -2471,7 +2541,7 @@ const whiskyQuizData = [
     r: "このパイプの角度（上向き・下向き）によって,原酒の軽重が大きく変わります。"
   },
   {
-    id: "AP-CULT-SING-028",
+    id: "AP-MID-SING-086",
     level: "中級",
     type: "single",
     points: 1,
@@ -2481,7 +2551,7 @@ const whiskyQuizData = [
     r: "1919年にロングモーン蒸留所でモルトウイスキーの製造を学びました。"
   },
   {
-    id: "AP-CULT-SING-029",
+    id: "AP-MID-SING-087",
     level: "中級",
     type: "single",
     points: 1,
@@ -2491,7 +2561,7 @@ const whiskyQuizData = [
     r: "リグニンが分解・酸化されることで,バニラのような甘い香りの「バニリン」が生まれます。"
   },
   {
-    id: "AP-CULT-MULT-010",
+    id: "AP-CULT-MULT-001",
     level: "カルト級",
     type: "multiple",
     points: 0,
@@ -2501,7 +2571,7 @@ const whiskyQuizData = [
     r: "ラフロイグ、ボウモア、キルホーマンの3箇所は、今でもフロアモルティングを継続しています。"
   },
   {
-    id: "AP-CULT-MULT-015",
+    id: "AP-CULT-MULT-002",
     level: "カルト級",
     type: "multiple",
     points: 0,
@@ -2511,7 +2581,17 @@ const whiskyQuizData = [
     r: "正解はすべて。19世紀末の全盛期、ダフタウンに並び立った伝説的な7つの蒸留所を指します。"
   },
   {
-    id: "AP-CULT-MULT-001",
+    id: "AP-CULT-MULT-003",
+    level: "カルト級",
+    type: "multiple",
+    points: 0,
+    q: "竹鶴政孝がスコットランド留学中に「直接実習」を受けた蒸留所をすべて選べ。",
+    a: ["ロングモーン", "ラガヴーリン", "ヘーゼルバーン", "ボウモア", "ボネッス"],
+    c: [0, 2, 4],
+    r: "ロングモーン（モルト）、ボネッス（グレーン）、ヘーゼルバーン（モルト）の3箇所で学びました。"
+  },
+  {
+    id: "AP-ADV-MULT-001",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2521,7 +2601,7 @@ const whiskyQuizData = [
     r: "スコットランド,アイルランド,アメリカ,カナダ,日本の5カ国を指します。フランスは含まれません。"
   },
   {
-    id: "AP-CULT-MULT-002",
+    id: "AP-ADV-MULT-002",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2531,7 +2611,7 @@ const whiskyQuizData = [
     r: "糖化から3年以上の熟成までは法律で決まっていますが,炭酸ガスを注入する工程はありません。"
   },
   {
-    id: "AP-ADV-MULT-001",
+    id: "AP-ADV-MULT-003",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2541,7 +2621,7 @@ const whiskyQuizData = [
     r: "北側は比較的穏やかな酒質傾向の蒸留所が集まるエリアです。"
   },
   {
-    id: "AP-ADV-MULT-002",
+    id: "AP-ADV-MULT-004",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2551,7 +2631,7 @@ const whiskyQuizData = [
     r: "島の南側に隣接するこれら3つは,特に強力なピート香を持つことで有名です。"
   },
   {
-    id: "AP-ADV-MULT-003",
+    id: "AP-ADV-MULT-005",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2561,7 +2641,7 @@ const whiskyQuizData = [
     r: "ポートやマデイラは別の強化ワインであり,厳密には「シェリー」ではありません。"
   },
   {
-    id: "AP-ADV-MULT-004",
+    id: "AP-ADV-MULT-006",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2571,7 +2651,7 @@ const whiskyQuizData = [
     r: "現在は蒸気加熱が主流ですが,一部の蒸留所では伝統的な直火蒸留が守られています。"
   },
   {
-    id: "AP-ADV-MULT-005",
+    id: "AP-ADV-MULT-007",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2581,7 +2661,7 @@ const whiskyQuizData = [
     r: "正解はアードベッグ,ラフロイグ,ラガヴーリン。これら3つは隣接しており,強烈なピート香が特徴です。"
   },
   {
-    id: "AP-ADV-MULT-006",
+    id: "AP-ADV-MULT-008",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2591,7 +2671,7 @@ const whiskyQuizData = [
     r: "現在は蒸留のコントロールがしやすいスチーム加熱が主流ですが,一部で伝統的な直火焚きも守られています。"
   },
   {
-    id: "AP-ADV-MULT-007",
+    id: "AP-ADV-MULT-009",
     level: "上級",
     type: "multiple",
     points: 10,
@@ -2611,7 +2691,7 @@ const whiskyQuizData = [
     r: "フランスも生産量は多いですが,伝統的な5大産地には含まれません。"
   },
   {
-    id: "AP-CULT-MATCH-010",
+    id: "AP-CULT-MATCH-001",
     level: "カルト級",
     type: "matching",
     points: 0,
@@ -2625,7 +2705,7 @@ const whiskyQuizData = [
     r: "近年、オーク以外の木材を使用した実験的な熟成が世界各地で試みられています。"
   },
   {
-    id: "AP-CULT-MATCH-001",
+    id: "AP-CULT-MATCH-002",
     level: "カルト級",
     type: "matching",
     points: 10,
@@ -2639,7 +2719,7 @@ const whiskyQuizData = [
     r: "各工程で使用される主要な設備や装置の名前です。これらを把握すると蒸留所見学がより楽しくなります。"
   },
   {
-    id: "AP-CULT-MATCH-002",
+    id: "AP-CULT-MATCH-003",
     level: "カルト級",
     type: "matching",
     points: 10,
@@ -2653,7 +2733,7 @@ const whiskyQuizData = [
     r: "樽が小さいほど原酒と木材の接触面積が増え,熟成が早まります。"
   },
   {
-    id: "AP-CULT-MATCH-015",
+    id: "AP-CULT-MATCH-004",
     level: "カルト級",
     type: "matching",
     points: 0,
@@ -2665,6 +2745,20 @@ const whiskyQuizData = [
       { left: "ラインアームが下向き", right: "重い成分が通りやすく重厚" }
     ],
     r: "スチルの形一つで、出来上がるスピリッツの性格は劇的に変わります。"
+  },
+  {
+    id: "AP-CULT-MATCH-005",
+    level: "カルト級",
+    type: "matching",
+    points: 0,
+    q: "黎明期を支えた「人物」と「ゆかりの企業・場所」の組み合わせ",
+    pairs: [
+      { left: "竹鶴政孝", right: "大日本果汁" },
+      { left: "鳥井信治郎", right: "寿屋" },
+      { left: "岩井喜一郎", right: "摂津酒造" },
+      { left: "堤正治", right: "本坊酒造" }
+    ],
+    r: "日本のウイスキー産業を立ち上げた巨星たちとその拠点です。"
   },
   {
     id: "AP-ADV-MATCH-001",
