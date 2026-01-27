@@ -1,10 +1,10 @@
 ﻿// --- 音声オブジェクト ---
 const sfx = {
-    countdown: new Audio('sounds/countdown.mp3'),
+    countdown: new Audio('sounds/countdown.mp3'), // 決定したカウントダウン音
     question: new Audio('sounds/question.mp3'),
     correct: new Audio('sounds/correct.mp3'),
     incorrect: new Audio('sounds/incorrect.mp3'),
-    thinking: new Audio('sounds/thinkingtime.mp3'),
+    thinking: new Audio('sounds/thinkingtime.mp3'), // 決定したカチカチ音
     cheers: new Audio('sounds/cheers.mp3')
 };
 sfx.thinking.loop = true;
@@ -62,10 +62,8 @@ function startQuiz(level) {
     stopAllSounds();
     
     if (level === '実力テスト') {
-        // 合計100点になるように21問を自動選抜
         currentQuestions = generate100PointSet(whiskyQuizData);
     } else {
-        // 通常のレベル別モード：そのレベルからランダムに10問
         const pool = whiskyQuizData.filter(q => q.level === level);
         currentQuestions = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
     }
@@ -286,6 +284,47 @@ function handleNext() {
     else showFinalResult();
 }
 
+/**
+ * ベストスコア保存ロジック
+ */
+function saveScore(newScore) {
+    let history = JSON.parse(localStorage.getItem('whiskyQuizHistory')) || [];
+    const date = new Date().toLocaleDateString();
+    history.unshift({ score: newScore, date: date });
+    if (history.length > 5) history = history.slice(0, 5);
+    localStorage.setItem('whiskyQuizHistory', JSON.stringify(history));
+
+    let bestScore = localStorage.getItem('whiskyQuizBestScore') || 0;
+    if (newScore > parseInt(bestScore)) {
+        localStorage.setItem('whiskyQuizBestScore', newScore);
+        return true; 
+    }
+    return false;
+}
+
+/**
+ * 履歴とベストスコアを表示
+ */
+function displayHistory(newScore) {
+    const isNewRecord = saveScore(newScore);
+    const bestScore = localStorage.getItem('whiskyQuizBestScore');
+    const container = document.getElementById('praise-message');
+    
+    let html = '<div style="margin-top:20px; border-top:1px dotted #888; padding-top:15px;">';
+    html += `<div style="font-size:1.1em; color:#FFD700; margin-bottom:15px;">`;
+    html += isNewRecord ? `✨ <b>自己ベスト更新！</b> ✨<br>` : `🏆 `;
+    html += `歴代ベストスコア: <b>${bestScore}</b> pts</div>`;
+
+    let history = JSON.parse(localStorage.getItem('whiskyQuizHistory')) || [];
+    html += '<h4 style="margin:0 0 10px 0;">直近5回の記録</h4><ul style="list-style:none; padding:0; font-size:0.85em; opacity:0.8;">';
+    history.forEach((item, index) => {
+        html += `<li style="margin-bottom:4px;">${index + 1}. ${item.date} — ${item.score}点</li>`;
+    });
+    html += '</ul></div>';
+    
+    container.innerHTML += html;
+}
+
 function showFinalResult() {
     stopAllSounds();
     document.getElementById('quiz-container').classList.add('hidden');
@@ -297,6 +336,9 @@ function showFinalResult() {
     document.getElementById('rank-emblem').innerText = myRank.emblem;
     document.getElementById('rank-name').innerText = myRank.name;
     document.getElementById('praise-message').innerText = myRank.message;
+
+    // スコア履歴の処理
+    displayHistory(score);
     
     playSound('cheers');
     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
