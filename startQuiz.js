@@ -38,18 +38,38 @@ function toggleSound() {
     if (!soundEnabled) stopAllSounds();
 }
 
+/**
+ * 100点満点（全21問）のテストセットを生成する内部関数
+ */
+function generate100PointSet(allData) {
+    const config = [
+        { level: "初級", count: 5 },  // 1点×5 = 5点
+        { level: "中級", count: 5 },  // 3点×5 = 15点
+        { level: "上級", count: 6 },  // 5点×6 = 30点
+        { level: "カルト級", count: 5 } // 10点×5 = 50点 (合計100点)
+    ];
+
+    let testSet = [];
+    config.forEach(item => {
+        const pool = allData.filter(q => q.level === item.level);
+        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        testSet = testSet.concat(shuffled.slice(0, item.count));
+    });
+    return testSet.sort(() => Math.random() - 0.5);
+}
+
 function startQuiz(level) {
     stopAllSounds();
     
     if (level === '実力テスト') {
-        currentQuestions = [...whiskyQuizData]; 
+        // 合計100点になるように21問を自動選抜
+        currentQuestions = generate100PointSet(whiskyQuizData);
     } else {
-        currentQuestions = whiskyQuizData.filter(q => q.level === level);
+        // 通常のレベル別モード：そのレベルからランダムに10問
+        const pool = whiskyQuizData.filter(q => q.level === level);
+        currentQuestions = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
     }
 
-    // ★テスト用：特定の設問（キルダルトン等）を確認したい時は下の行の先頭に // を入れて無効化してください
-    currentQuestions = currentQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
-    
     if (currentQuestions.length === 0) return alert("問題データが見つかりません。");
 
     score = 0;
@@ -85,7 +105,6 @@ function showQuestion() {
     document.getElementById('current-num').innerText = `${currentQuestionIndex + 1} / ${currentQuestions.length}`;
     document.getElementById('question-text').innerText = q.q;
 
-    // 問題のタイプに合わせて出し分け
     if (q.type === 'matching') {
         renderMatching(q);
     } else {
@@ -96,13 +115,11 @@ function showQuestion() {
     setTimeout(() => playSound('thinking'), 500);
 }
 
-// 修正ポイント：関数を一つにまとめ、ネストを解消
 function renderOptions(q) {
     const container = document.getElementById('options-container');
     container.innerHTML = '';
     container.classList.remove('hidden');
 
-    // 1. 選択肢ボタンの生成
     q.a.forEach((text, index) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
@@ -110,15 +127,14 @@ function renderOptions(q) {
         
         btn.onclick = () => {
             if (q.type === 'multiple') {
-                btn.classList.toggle('selected'); // 複数選択：琥珀色にハイライト
+                btn.classList.toggle('selected');
             } else {
-                checkAnswer(index); // 単一選択：即座に判定
+                checkAnswer(index);
             }
         };
         container.appendChild(btn);
     });
 
-    // 2. 複数選択用「青い確定ボタン」
     if (q.type === 'multiple') {
         const submitBtn = document.createElement('button');
         submitBtn.className = 'submit-btn'; 
@@ -166,7 +182,7 @@ function finalizeQuestion(isCorrect, q, idx = -1) {
         }
     });
 
-    if (isCorrect) score += (q.points || 10);
+    if (isCorrect) score += (q.points || 1);
     showFeedback(isCorrect, q.r);
 }
 
@@ -219,7 +235,7 @@ function selectMatch(btn, side, id, q) {
             matchCount++;
             if (matchCount === q.pairs.length) {
                 clearInterval(timerInterval);
-                const finalPoints = Math.max(0, (q.points || 10) - currentWrongCount);
+                const finalPoints = Math.max(0, (q.points || 1) - currentWrongCount);
                 score += finalPoints;
                 showFeedback(true, `全正解！(減点: -${currentWrongCount})\n${q.r}`);
             }
